@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "h1LVt8r/tSe6f6ZL/nhxQAoXHNhOMVwrjO72U+JtAaoiF7b6B3f1k7q88gxc0I3sF+j1M+z1zWK1ICBHLcHeHw==",
+  "success": true,
+  "projectFilePath": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\BeltSlot.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\James\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\James\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
+    "C:\\Users\\James\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
+    "C:\\Users\\James\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512"
+  ],
+  "logs": []
+}
