@@ -150,3 +150,64 @@ HorizontalLayoutGroup
 items.  The same fix will probably fix the issue with switching to an armband then switching back to a belt
 and it not showing the grid.
 -fix beltToggle not fully removing the belt grid elements.
+
+
+
+////////////////
+// EFT Scenes //
+////////////////
+Screentype:  None
+
+Factory:
+	Factory_Rework_Day_Scripts
+	Factory_Rework_Night_Scripts
+	
+Ground Zero:
+	Sandbox_Scripts
+	
+Streets:
+	City_Scripts
+	
+Interchange:
+	Shopping_Mall_Scripts
+	
+Customs:
+	custom_Scripts
+	
+Woods:
+	woods_Scripts
+	
+Reserve:
+	Reserve_Base_Scripts
+
+Lighthouse:
+	Lighthouse_Scripts
+	
+Shoreline:
+	shorline_scripts
+	
+Labs:
+	Laboratory_Scripts
+	
+	
+
+////////////////////////
+// Complex Loot Panel //
+////////////////////////
+
+// Looting bodies, Kills seem to disable the update of the belt slot
+Common UI/Common UI/InventoryScreen/Items Panel/Stash Panel/Complex Loot Panel/Containers Scrollview/
+Content
+-Gear Panel Template(Clone)
+-TacticalVet Slot
+-Pockets Slot
+-Backpack Slot
+
+
+
+/////////////
+// In Raid //
+/////////////
+
+Sometimes doesnt perform the beltslot logic, no idea why.
+Add in a button to fix the issue if it fails to work.

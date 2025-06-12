@@ -29,32 +29,15 @@ namespace BeltSlot
     public class Plugin : BaseUnityPlugin
     {
         #region Variables
-        private const string GCLASS_FIELD_NAME = "gclass3521_0";
-        private const string ALL_TABS_FIELD_NAME = "tab_0";
-        private const string CURRENT_TAB_FIELD_NAME = "tab_2";
-
-        private static FieldInfo _gclass = null;
         private static FieldInfo _servicesScreen = null;
         private static FieldInfo _background = null;
-        private static FieldInfo _allTabs = null;
-        private static FieldInfo _currentTab = null;
         private Vector3 mousePosition = Vector3.zero;
-        int currentTraderIndex = 0;
-        int currentButtonIndex = 0;
         EEftScreenType previousScreenType = EEftScreenType.None;
         EEftScreenType eScreenType;
         ETraderMode eTraderMode = ETraderMode.Trade;
         CurrentScreenSingletonClass currentScreenSingletonClass = null;
 
         Timer buttonTimer = new Timer(2000);
-
-        private bool inventoryOpen = false;
-        private bool tradersOpen = false;
-        private bool fleaOpen = false;
-        private bool hideOutOpen = false;
-        private bool buttonSelected = false;
-        private bool buttonPressedBool = false;
-        private bool escapePressedBool = false;
 
         private bool enableLogging = false;
         #endregion
@@ -104,21 +87,6 @@ namespace BeltSlot
                 if (enableLogging)
                 {
                     Logger.LogInfo("Inventory screen is focused.");
-                }
-                return true;
-            }
-            return false;
-        }
-
-        // Check if the trader screen is focused, if so, return true
-        private bool isTraderScreenFocus()
-        {
-            var traderScreensGroup = getTraderScreensGroup();
-            if (traderScreensGroup.isActiveAndEnabled)
-            {
-                if (enableLogging)
-                {
-                    Logger.LogInfo("Trader screen is focused.");
                 }
                 return true;
             }
@@ -175,11 +143,71 @@ namespace BeltSlot
                 return false;
             }
 
-            if (currentScene == "EftMainScene" || currentScene == "LoginUIScene")
+            // Removed (currentScene == "EftMainScene") check, see what this effects
+            if (currentScene == "LoginUIScene")
             {
                 return false;
             }
             return true;
+        }
+
+        private bool testInRaidScene()
+        {
+            string _currentScene = getCurrentScene();
+            if(_currentScene == "Factory_Rework_Day_Scripts" || _currentScene == "Factory_Rework_Night_Scripts")
+            {
+                // Current scene is Factory
+                return true;
+            }
+            else if(_currentScene == "Sandbox_Scripts")
+            {
+                // Current scene is Ground Zero
+                return true;
+            }
+            else if(_currentScene == "City_Scripts")
+            {
+                // Current scene is Streets of Tarkov
+                return true;
+            }
+            else if(_currentScene == "Shopping_Mall_Scripts")
+            {
+                // Current scene is Shopping Mall
+                return true;
+            }
+            else if(_currentScene == "custom_Scipts")
+            {
+                // Current scene is Customs
+                return true;
+            }
+            else if(_currentScene == "woods_Scripts")
+            {
+                // Current scene is Woods
+                return true;
+            }
+            else if(_currentScene == "Reserve_Base_Scripts")
+            {
+                // Current scene is Reserve
+                return true;
+            }
+            else if(_currentScene == "Lighthouse_Scripts")
+            {
+                // Current scene is Lighthouse
+                return true;
+            }
+            else if(_currentScene == "shorline_scripts")
+            {
+                // Current scene is Shoreline
+                return true;
+            }
+            else if(_currentScene == "Laboratory_Scripts")
+            {
+                // Current scene is Laboratory
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         // Check if screen has changed
@@ -276,16 +304,6 @@ namespace BeltSlot
 
             return _currentScene;
         }
-
-        private bool testMouseMovement(Vector3 position)
-        {
-            mousePosition = Input.mousePosition;
-            if (mousePosition != position)
-            {
-                return false;
-            }
-            return true;
-        }
         #endregion
 
         #region Get Methods
@@ -308,43 +326,8 @@ namespace BeltSlot
                 }
             return _tarkovApplication;
         }
-
-        // Get the TraderScreensGroup instance, if it exists, otherwise return null
-        private TraderScreensGroup getTraderScreensGroup()
-        {
-            MenuUI menuUI = MenuUI.Instance;
-            TraderScreensGroup traderScreensGroup = menuUI.TraderScreensGroup;
-            return traderScreensGroup;
-        }
-
-        // Get the ServicesScreen instance, if it exists, otherwise return null
-        private ServicesScreen getServicesScreen()
-        {
-            var _traderGroupScreen = getTraderScreensGroup();
-
-            if (_traderGroupScreen == null)
-            {
-                return null;
-            }
-
-            if (!_traderGroupScreen.isActiveAndEnabled)
-            {
-                if (enableLogging)
-                {
-                    Logger.LogInfo($"inventory screen is not active");
-                }
-                return null;
-            }
-
-            Type type = typeof(TraderScreensGroup);
-            if (_servicesScreen == null)
-            {
-                _servicesScreen = AccessTools.Field(type, "_servicesScreen");
-            }
-
-            return (ServicesScreen)_servicesScreen.GetValue(_traderGroupScreen);
-        }
         #endregion
+
         // BaseUnityPlugin inherits MonoBehaviour, so you can use base unity functions like Awake() and Update()
         private void Awake()
         {
@@ -366,39 +349,34 @@ namespace BeltSlot
 
         private void Update()
         {
+            // Checks if inventory open and sets the inventoryEquipment variable
             OnEnterInventory();
 
+            // Handles updating the armband slot variables and sets the belt slot
             UpdateArmbandSlot();
 
+            // Handles clearing the belt grid if the toggle is off
             ClearBeltGrid();
 
-            if (Input.GetKeyDown(KeyCode.B))
+            // Belt toggle
+            if (Input.GetKeyDown(KeyCode.Pause))
             {
                 beltToggle = !beltToggle;
             }
 
             if (Input.GetKeyDown(KeyCode.O))
             {
-                Vector2 mousePosition = Input.mousePosition;
-                LogSource?.LogInfo("mouse position: " + mousePosition);
+                string _currentScene = getCurrentScene();
+                //if(enableLogging)
+                //{
+                    LogSource?.LogInfo($"Current scene: {_currentScene}");
+                //}
+                EEftScreenType _currentScreen = getCurrentScreen();
+                //if (enableLogging)
+                //{
+                    LogSource?.LogInfo($"Current screen type: {_currentScreen}");
+                //}
 
-                if(!TestArmBand())
-                {
-                    LogSource?.LogInfo("No item in ArmBand slot or item is not a compound item.");
-                    return;
-                }
-                if(uiMappings != null)
-                {
-                    OpenBelt(10);
-                }
-
-            }
-
-            if(Input.GetKeyDown(KeyCode.K))
-            {
-
-                UiMappings?.setBeltSlotGrid();
-                LogSource?.LogInfo("Belt slot child count: " + UiMappings?.beltSlot?.transform.childCount);
             }
         }
 
@@ -410,11 +388,11 @@ namespace BeltSlot
 
         private async void OnEnterInventory()
         {
-            if (!testScene())
+            if (!testScene() && !testInRaidScene())
             {
                 return;
             }
-            if (getCurrentScene() != "CommonUIScene" && getCurrentScene() != "MenuUIScene")
+            if (getCurrentScene() != "CommonUIScene" && getCurrentScene() != "MenuUIScene" && !testInRaidScene())
             {
                 return;
             }
@@ -486,11 +464,11 @@ namespace BeltSlot
 
         private async void UpdateArmbandSlot()
         {
-            if (!testScene())
+            if (!testScene() && !testInRaidScene())
             {
                 return;
             }
-            if (getCurrentScene() != "CommonUIScene" && getCurrentScene() != "MenuUIScene")
+            if (getCurrentScene() != "CommonUIScene" && getCurrentScene() != "MenuUIScene" && !testInRaidScene())
             {
                 return;
             }
@@ -535,11 +513,11 @@ namespace BeltSlot
 
         private bool TestArmBand()
         {
-            if (!testScene())
+            if (!testScene() && !testInRaidScene())
             {
                 return false;
             }
-            if (getCurrentScene() != "CommonUIScene" && getCurrentScene() != "MenuUIScene")
+            if (getCurrentScene() != "CommonUIScene" && getCurrentScene() != "MenuUIScene" && !testInRaidScene() )
             {
                 return false;
             }
@@ -591,11 +569,11 @@ namespace BeltSlot
 
         private bool TestItem(String? item)
         {
-            if (!testScene())
+            if (!testScene() && !testInRaidScene())
             {
                 return false;
             }
-            if (getCurrentScene() != "CommonUIScene" && getCurrentScene() != "MenuUIScene")
+            if (getCurrentScene() != "CommonUIScene" && getCurrentScene() != "MenuUIScene" && !testInRaidScene() )
             {
                 return false;
             }
@@ -637,11 +615,11 @@ namespace BeltSlot
 
         private bool TestBeltHasGrid()
         {
-            if (!testScene())
+            if (!testScene() && !testInRaidScene())
             {
                 return false;
             }
-            if (getCurrentScene() != "CommonUIScene" && getCurrentScene() != "MenuUIScene")
+            if (getCurrentScene() != "CommonUIScene" && getCurrentScene() != "MenuUIScene" && !testInRaidScene() )
             {
                 return false;
             }
@@ -662,11 +640,11 @@ namespace BeltSlot
 
         private void RefreshBeltSlot()
         {
-            if (!testScene())
+            if (!testScene() && !testInRaidScene())
             {
                 return;
             }
-            if (getCurrentScene() != "CommonUIScene" && getCurrentScene() != "MenuUIScene")
+            if (getCurrentScene() != "CommonUIScene" && getCurrentScene() != "MenuUIScene" && !testInRaidScene() )
             {
                 return;
             }

@@ -64,9 +64,10 @@
               "RelativeDocumentMoniker": "Helpers\\UI Mappings.cs",
               "ToolTip": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Helpers\\UI Mappings.cs",
               "RelativeToolTip": "Helpers\\UI Mappings.cs",
-              "ViewState": "AQIAADUAAAAAAAAAAADwv1QAAAAZAAAA",
+              "ViewState": "AQIAABEAAAAAAAAAAAAQwFQAAAAZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-10T18:49:43.267Z"
+              "WhenOpened": "2025-06-10T18:49:43.267Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -88,7 +89,7 @@
               "RelativeDocumentMoniker": "Plugin.cs",
               "ToolTip": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Plugin.cs",
               "RelativeToolTip": "Plugin.cs",
-              "ViewState": "AQIAAAYCAAAAAAAAAAAYwLECAAARAAAA",
+              "ViewState": "AQIAAB8BAAAAAAAAAAAIwGIBAABRAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-05T16:12:40.049Z",
               "EditorCaption": ""
