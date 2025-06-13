@@ -11,6 +11,7 @@ namespace BeltSlot.Helpers
         #region Variables
         // Main Menu UI Elements
         public GameObject? containerGameObject = null;
+        public GameObject? lootContainerGameObject = null;
         public GameObject? slotTemplate = null;
         public GameObject? dogtagTemplate = null;
         public GameObject? compassTemplate = null;
@@ -23,12 +24,11 @@ namespace BeltSlot.Helpers
         public GameObject? windowsPlaceHolder = null;
         public GameObject? windowCloseButton = null;
 
-        public GameObject[] defaultContainersViewArray = new GameObject[7];
-        public GameObject[] newContainersViewArray = new GameObject[8];
         public GameObject[]? windowsPlaceHolderArray = null;
         #endregion
 
-
+        #region Game Object Mappings
+        // Mappings of container view in the inventory screen
         public void setContainer_Mappings()
         {
             containerGameObject = GameObject.Find("Common UI/Common UI/InventoryScreen/Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content")?.gameObject;
@@ -41,47 +41,35 @@ namespace BeltSlot.Helpers
             securedContainerSlot = GameObject.Find("Common UI/Common UI/InventoryScreen/Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content/SecuredContainer Slot")?.gameObject;
         }
 
+        // Mappings of equipment view in the inventory screen, currently just the armband slot
         public void setEquipment_Mappings()
         {
             armBandSlot = GameObject.Find("Common UI/Common UI/InventoryScreen/Items Panel/LeftSide/Left Panel/Gear Panel/ArmBand Slot")?.gameObject;
         }
 
+        // Mappings of preloader UI elements
         public void setPrelaoderUI_Mappings()
         {
             windowsPlaceHolder = GameObject.Find("Preloader UI/Preloader UI/UIContext/WindowsPlaceholder")?.gameObject;
             windowCloseButton = GameObject.Find("Preloader UI/Preloader UI/UIContext/WindowsPlaceholder/WindowCloseButton")?.gameObject;
         }
 
+        // Mappings of complex loot container view in the inventory screen, currently not used
+        public void setComplexLootUI_Mappings()
+        {
+            lootContainerGameObject = GameObject.Find("Common UI/Common UI/InventoryScreen/Items Panel/Items Panel/Stash Panel/Complex Loot Panel/Containers Scrollview/Content")?.gameObject;
+        }
+
+        // Mappings of the belt slot, which is instantiated from the slot template
         public void setBeltSlot_Mappings()
         {
 
-            beltSlot = GameObject.Instantiate(slotTemplate, containerGameObject.transform);
+            beltSlot = GameObject.Instantiate(slotTemplate, containerGameObject?.transform);
 
         }
+        #endregion
 
-        public void setDefaultContainersArray()
-        {
-            defaultContainersViewArray[0] = slotTemplate;
-            defaultContainersViewArray[1] = dogtagTemplate;
-            defaultContainersViewArray[2] = compassTemplate;
-            defaultContainersViewArray[3] = tacticalVestSlot;
-            defaultContainersViewArray[4] = pocketsSlot;
-            defaultContainersViewArray[5] = backpackSlot;
-            defaultContainersViewArray[6] = securedContainerSlot;
-        }
-
-        public void setNewContainersArray()
-        {
-            newContainersViewArray[0] = slotTemplate;
-            newContainersViewArray[1] = dogtagTemplate;
-            newContainersViewArray[2] = compassTemplate;
-            newContainersViewArray[3] = tacticalVestSlot;
-            newContainersViewArray[4] = beltSlot;
-            newContainersViewArray[5] = pocketsSlot;
-            newContainersViewArray[6] = backpackSlot;
-            newContainersViewArray[7] = securedContainerSlot;
-        }
-
+        // Set the windows placeholder array by getting all the child GameObjects of the windows placeholder GameObject
         public void setWindowsPlaceHolderArray()
         {
             // Create a new array to hold the GameObjects
@@ -94,6 +82,7 @@ namespace BeltSlot.Helpers
             }
         }
 
+        // Set the settings of the belt slot, such as its position, name, and visibility
         public void setBeltSlot_Settings()
         {
             if(beltSlot == null)
@@ -117,6 +106,7 @@ namespace BeltSlot.Helpers
             }
         }
 
+        // Finds the grid window clone, moves the grids to the belt slot, and hides the window clone
         public void setBeltSlotGrid()
         {
             setWindowsPlaceHolderArray();
@@ -139,53 +129,22 @@ namespace BeltSlot.Helpers
             windowClone.SetActive(false); // Hide the window clone
         }
 
+        // Get the grid window clone from the windows placeholder array
         public GameObject getGridWindowClone()
         {
             setWindowsPlaceHolderArray();
-            /*if ((windowsPlaceHolderArray?.Length) < 16)
-            {
-                return null; // Ensure there are enough windows to access the grid window
-            }*/
             GameObject? gridWindowClone = windowsPlaceHolder?.transform.GetChild(16).gameObject; // Get the first child of the windows placeholder, which is the grid window template
             gridWindowClone = windowsPlaceHolderArray?[windowsPlaceHolderArray.Length - 1];
-            //GameObject? captionPanel = gridWindowClone?.transform.GetChild(3).gameObject; // Get the close button of the grid window
-            //GameObject? closeButton = captionPanel?.transform.GetChild(6).gameObject; // Get the close button of the grid window
 
             return gridWindowClone;
         }
-        #region Button Setters
 
-        #endregion
-
+        // Get the close button of the grid window
         public Button getCloseButton(GameObject button)
         {
             GameObject captionPanel = button.transform.GetChild(3).gameObject; // Get the close button of the grid window
             GameObject closeButton = captionPanel.transform.GetChild(6).gameObject; // Get the close button of the grid window
             return closeButton.GetComponentInChildren<Button>();
         }
-        #region Button Getters
-        /*public DefaultUIButton getButton(GameObject button)
-        {
-            return button.GetComponentInChildren<DefaultUIButton>();
-        }
-
-        public Image getBackground(GameObject button)
-        {
-            return button.transform.GetChild(1).GetComponent<Image>();
-        }
-
-        public TextMeshProUGUI getLabel(GameObject button)
-        {
-            GameObject _sizeLabel = button.transform.GetChild(2).gameObject;
-            return _sizeLabel.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
-        }
-
-        public Image getIcon(GameObject button)
-        {
-            GameObject _sizeLabel = button.transform.GetChild(2).gameObject;
-            GameObject _iconContainer = _sizeLabel.transform.GetChild(1).gameObject;
-            return _iconContainer.transform.GetChild(1).GetComponent<Image>();
-        }*/
-        #endregion
     }
 }

@@ -1,26 +1,24 @@
-﻿using BepInEx;
-using BepInEx.Logging;
+﻿using BeltSlot.Helpers;
 using BeltSlot.Patches;
-using EFT.InventoryLogic;
-using UnityEngine;
-using EFT.UI.DragAndDrop;
-using EFT.UI;
+using BepInEx;
+using BepInEx.Logging;
 using Comfort.Common;
-using EFT.InputSystem;
-using BeltSlot.Helpers;
-using UnityEngine.EventSystems;
 using EFT;
-using HarmonyLib;
 using EFT.Hideout;
+using EFT.InventoryLogic;
+using EFT.UI;
+using EFT.UI.DragAndDrop;
 using EFT.UI.Screens;
-using UnityEngine.SceneManagement;
-using static EFT.UI.TraderScreensGroup;
-using System.Reflection;
-using System.Timers;
+using HarmonyLib;
 using System;
-using UnityEngine.UI;
-using EFT.Interactive;
+using System.Reflection;
 using System.Threading.Tasks;
+using System.Timers;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using static EFT.UI.TraderScreensGroup;
 
 namespace BeltSlot
 {
@@ -29,38 +27,22 @@ namespace BeltSlot
     public class Plugin : BaseUnityPlugin
     {
         #region Variables
-        private static FieldInfo _servicesScreen = null;
-        private static FieldInfo _background = null;
+        private static FieldInfo? _background = null;
         private Vector3 mousePosition = Vector3.zero;
         EEftScreenType previousScreenType = EEftScreenType.None;
         EEftScreenType eScreenType;
         ETraderMode eTraderMode = ETraderMode.Trade;
-        CurrentScreenSingletonClass currentScreenSingletonClass = null;
-
-        Timer buttonTimer = new Timer(2000);
-
-        private bool enableLogging = false;
-        #endregion
-
-        public GameObject? armBandSlot;
-        public GameObject? tacticalSlot;
-        public GameObject? commonUI;
-        public GameObject? generatedGridsView;
-        public ContainedGridsView? containedGridsView;
-        public ItemUiContext? ItemUiContext;
-        public CompoundItem? beltItem;
+        CurrentScreenSingletonClass? currentScreenSingletonClass = null;
         public Item? itemToTest;
         public string? itemId = "0000000000";
-        public ItemContextAbstractClass? newSourceContext;
-        public ItemUiContext? newItemUiContext;
         public InventoryEquipment? inventoryEquipment;
         private static UI_Mappings? uiMappings;
-        public bool newItemAdded = false;
         public bool beltToggle = true;
         public static Plugin? Instance { get; private set; }
         internal static UI_Mappings? UiMappings { get => uiMappings; set => uiMappings = value; }
-
         public static ManualLogSource? LogSource;
+        private bool enableLogging = false;
+        #endregion
 
         #region Test Methods
         // Check if the input field is focused, if so, return true
@@ -151,6 +133,7 @@ namespace BeltSlot
             return true;
         }
 
+        // Check if the current scene is a raid scene, if so, return true, otherwise return false
         private bool testInRaidScene()
         {
             string _currentScene = getCurrentScene();
@@ -174,7 +157,7 @@ namespace BeltSlot
                 // Current scene is Shopping Mall
                 return true;
             }
-            else if(_currentScene == "custom_Scipts")
+            else if(_currentScene == "custom_Scripts")
             {
                 // Current scene is Customs
                 return true;
@@ -194,7 +177,7 @@ namespace BeltSlot
                 // Current scene is Lighthouse
                 return true;
             }
-            else if(_currentScene == "shorline_scripts")
+            else if(_currentScene == "shoreline_scripts")
             {
                 // Current scene is Shoreline
                 return true;
@@ -304,213 +287,8 @@ namespace BeltSlot
 
             return _currentScene;
         }
-        #endregion
 
-        #region Get Methods
-        // Get Tarkov application instance, if it exists, otherwise return null
-        private TarkovApplication getTarkovApplication()
-        {
-            // OH MY GOD THIS WORKS!!!!
-            // It took me two days to figure this out
-            TarkovApplication _tarkovApplication;
-            if (TarkovApplication.Exist(out _tarkovApplication))
-
-                if (_tarkovApplication == null)
-                {
-                    if (enableLogging)
-                    {
-                        Logger.LogInfo("Tarkov application is null");
-                    }
-                    Logger.LogInfo("Tarkov application is null");
-                    return null;
-                }
-            return _tarkovApplication;
-        }
-        #endregion
-
-        // BaseUnityPlugin inherits MonoBehaviour, so you can use base unity functions like Awake() and Update()
-        private void Awake()
-        {
-            Plugin.Instance = this;
-            UiMappings = new UI_Mappings();
-            // save the Logger to variable so we can use it elsewhere in the project
-            LogSource = Logger;
-            LogSource.LogInfo("plugin loaded!");
-
-            // uncomment line(s) below to enable desired example patch, then press F6 to build the project:
-            //new ContainedGridsViewPatch().Enable();
-            //new EquipmentTabPatch().Enable();
-            //new ContainersPanelPatch().Enable();
-            new SlotItemViewPatch().Enable();
-            new InventoryEquipmentPatch().Enable();
-            ContextMenuShortcutPatches.Enable();
-            R.Init();
-        }
-
-        private void Update()
-        {
-            // Checks if inventory open and sets the inventoryEquipment variable
-            OnEnterInventory();
-
-            // Handles updating the armband slot variables and sets the belt slot
-            UpdateArmbandSlot();
-
-            // Handles clearing the belt grid if the toggle is off
-            ClearBeltGrid();
-
-            // Belt toggle
-            if (Input.GetKeyDown(KeyCode.Pause))
-            {
-                beltToggle = !beltToggle;
-            }
-
-            if (Input.GetKeyDown(KeyCode.O))
-            {
-                string _currentScene = getCurrentScene();
-                //if(enableLogging)
-                //{
-                    LogSource?.LogInfo($"Current scene: {_currentScene}");
-                //}
-                EEftScreenType _currentScreen = getCurrentScreen();
-                //if (enableLogging)
-                //{
-                    LogSource?.LogInfo($"Current screen type: {_currentScreen}");
-                //}
-
-            }
-        }
-
-        private static async Task pauseWait(int wait)
-        {
-            // A pause method that waits for a specified amount of time
-            await Task.Delay(wait);
-        }
-
-        private async void OnEnterInventory()
-        {
-            if (!testScene() && !testInRaidScene())
-            {
-                return;
-            }
-            if (getCurrentScene() != "CommonUIScene" && getCurrentScene() != "MenuUIScene" && !testInRaidScene())
-            {
-                return;
-            }
-            if (!getHideoutLoading())
-            {
-                return;
-            }
-            // do not trigger if inventory screen is not focused or input field is focused
-            if (isInventoryScreenFocus() && !isInputFieldFocused())
-            {
-                if (UiMappings != null)
-                {
-                    if (UiMappings.beltSlot == null)
-                    {
-
-                        UiMappings.setContainer_Mappings();
-                        UiMappings.setBeltSlot_Settings();
-                        UiMappings?.setPrelaoderUI_Mappings();
-                        await pauseWait(2000); // Wait for 100 milliseconds to ensure the UI is ready
-                        if(beltToggle)
-                        {
-                            if (!TestBeltHasGrid())
-                            {
-                                if (TestArmBand())
-                                {
-                                    OpenBelt(1000);
-                                    //await pauseWait(100); // Wait for 100 milliseconds to ensure the UI is ready
-                                    Slot? slot = inventoryEquipment?.GetSlot(EquipmentSlot.ArmBand);
-                                    itemToTest = slot?.ContainedItem;
-                                    itemId = slot?.ContainedItem.Id;
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                    else if(UiMappings.beltSlot.transform.GetSiblingIndex() != 4)
-                    {
-                        UiMappings.setBeltSlot_Settings();
-                        if (enableLogging)
-                        {
-                            Logger.LogInfo("belt slot in the wrong place, fixing");
-                        }
-
-                        await pauseWait(100); // Wait for 100 milliseconds to ensure the UI is ready
-                        if(beltToggle)
-                        {
-                            if(!TestBeltHasGrid())
-                            {
-                                if (TestArmBand())
-                                {
-                                    OpenBelt(10);
-                                    //await pauseWait(100); // Wait for 100 milliseconds to ensure the UI is ready
-                                    Slot? slot = inventoryEquipment?.GetSlot(EquipmentSlot.ArmBand);
-                                    itemToTest = slot?.ContainedItem;
-                                    itemId = slot?.ContainedItem.Id;
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                    if (enableLogging)
-                    {
-                        Logger?.LogInfo("belt slot in the right place");
-                    }
-                    return;
-                }
-            }
-        }
-
-        private async void UpdateArmbandSlot()
-        {
-            if (!testScene() && !testInRaidScene())
-            {
-                return;
-            }
-            if (getCurrentScene() != "CommonUIScene" && getCurrentScene() != "MenuUIScene" && !testInRaidScene())
-            {
-                return;
-            }
-            if (!getHideoutLoading())
-            {
-                return;
-            }
-            // do not trigger if inventory screen is not focused or input field is focused
-            if (isInventoryScreenFocus() && !isInputFieldFocused())
-            {
-                if (UiMappings?.beltSlot == null)
-                {
-                    UiMappings?.setContainer_Mappings();
-                    UiMappings?.setBeltSlot_Settings();
-                    UiMappings?.setPrelaoderUI_Mappings();
-                }
-                await pauseWait(100); // Wait for 100 milliseconds to ensure the UI is ready
-                if (beltToggle)
-                {
-                    if(TestItem(itemId))
-                    {
-                        if (!TestBeltHasGrid())
-                        {
-                            OpenBelt(10);
-                        }
-                    }
-                }
-                RefreshBeltSlot();
-            }
-        }
-
-        private void ClearBeltGrid()
-        {
-            if(!beltToggle)
-            {
-                if(TestBeltHasGrid())
-                {
-                    CloseBelt();
-                }
-            }
-        }
-
+        // Test the ArmBand slot, if it has a compound item, return true, otherwise return false
         private bool TestArmBand()
         {
             if (!testScene() && !testInRaidScene())
@@ -567,6 +345,7 @@ namespace BeltSlot
             return false;
         }
 
+        // Test the item in the ArmBand slot, if it has changed, return true, otherwise return false
         private bool TestItem(String? item)
         {
             if (!testScene() && !testInRaidScene())
@@ -613,6 +392,7 @@ namespace BeltSlot
             return false;
         }
 
+        // Test if the belt slot has a grid, if so, return true, otherwise return false
         private bool TestBeltHasGrid()
         {
             if (!testScene() && !testInRaidScene())
@@ -637,7 +417,212 @@ namespace BeltSlot
             }
             return false;
         }
+        #endregion
 
+        #region Get Methods
+        // Get Tarkov application instance, if it exists, otherwise return null
+        // not currrenlty used, but might be useful in the future
+        private TarkovApplication? getTarkovApplication()
+        {
+            // OH MY GOD THIS WORKS!!!!
+            // It took me two days to figure this out
+            TarkovApplication _tarkovApplication;
+            if (TarkovApplication.Exist(out _tarkovApplication))
+
+                if (_tarkovApplication == null)
+                {
+                    if (enableLogging)
+                    {
+                        Logger.LogInfo("Tarkov application is null");
+                    }
+                    Logger.LogInfo("Tarkov application is null");
+                    return null;
+                }
+            return _tarkovApplication;
+        }
+        #endregion
+
+        // BaseUnityPlugin inherits MonoBehaviour, so you can use base unity functions like Awake() and Update()
+        private void Awake()
+        {
+            Plugin.Instance = this;
+            UiMappings = new UI_Mappings();
+            // save the Logger to variable so we can use it elsewhere in the project
+            LogSource = Logger;
+            LogSource.LogInfo("plugin loaded!");
+
+            // Currently just used to get an instance of the inventory equipment screen
+            new InventoryEquipmentPatch().Enable();
+            // Think this is where the logic for auto placement of items into the inventory is, need to explore it
+            //new ItemUiContextPatch().Enable();
+        }
+
+        // Using lateupdate because hoping it would fix issues with the belt grid not opening when it should
+        // not sure if it worked
+        private void LateUpdate()
+        {
+            // Checks if inventory open and sets the inventoryEquipment variable
+            OnEnterInventory();
+
+            // Handles updating the armband slot variables and sets the belt slot
+            UpdateArmbandSlot();
+
+            // Handles clearing the belt grid if the toggle is off
+            ClearBeltGrid();
+
+            //InRaidGridHelper();
+
+            // Belt toggle
+            /*if (Input.GetKeyDown(KeyCode.Pause))
+            {
+                beltToggle = !beltToggle;
+            }
+
+            // Test for current screen and send log message, for debuging purposes
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                string _currentScene = getCurrentScene();
+                //if(enableLogging)
+                //{
+                    LogSource?.LogInfo($"Current scene: {_currentScene}");
+                //}
+                EEftScreenType _currentScreen = getCurrentScreen();
+                //if (enableLogging)
+                //{
+                    LogSource?.LogInfo($"Current screen type: {_currentScreen}");
+                //}
+
+            }*/
+        }
+
+        // A pause method that waits for a specified amount of time
+        // Not currently used as it results in a sound bug currently
+        // with the opening of the belt grid
+        private static async Task pauseWait(int wait)
+        {
+            // A pause method that waits for a specified amount of time
+            await Task.Delay(wait);
+        }
+
+        #region Methods
+        // Open the belt slot if the inventory is open and the armband slot has a compound item
+        // also sets the uiMappings if they are null
+        private void OnEnterInventory()
+        {
+            if (!testScene() && !testInRaidScene())
+            {
+                return;
+            }
+            if (getCurrentScene() != "CommonUIScene" && getCurrentScene() != "MenuUIScene" && !testInRaidScene())
+            {
+                return;
+            }
+            if (!getHideoutLoading())
+            {
+                return;
+            }
+            // do not trigger if inventory screen is not focused or input field is focused
+            if (isInventoryScreenFocus() && !isInputFieldFocused())
+            {
+                if (UiMappings != null)
+                {
+                    if (UiMappings.beltSlot == null)
+                    {
+
+                        UiMappings.setContainer_Mappings();
+                        UiMappings.setBeltSlot_Settings();
+                        UiMappings?.setPrelaoderUI_Mappings();
+                        //await pauseWait(2000); // Wait for 100 milliseconds to ensure the UI is ready
+                        if(beltToggle)
+                        {
+                            if (!TestBeltHasGrid())
+                            {
+                                if (TestArmBand())
+                                {
+                                    OpenBelt(1000);
+                                    //await pauseWait(100); // Wait for 100 milliseconds to ensure the UI is ready
+                                    Slot? slot = inventoryEquipment?.GetSlot(EquipmentSlot.ArmBand);
+                                    itemToTest = slot?.ContainedItem;
+                                    itemId = slot?.ContainedItem.Id;
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    else if(UiMappings.beltSlot.transform.GetSiblingIndex() != 4)
+                    {
+                        UiMappings.setBeltSlot_Settings();
+                        if (enableLogging)
+                        {
+                            Logger.LogInfo("belt slot in the wrong place, fixing");
+                        }
+
+                        //await pauseWait(100); // Wait for 100 milliseconds to ensure the UI is ready
+                        if(beltToggle)
+                        {
+                            if(!TestBeltHasGrid())
+                            {
+                                if (TestArmBand())
+                                {
+                                    OpenBelt(10);
+                                    //await pauseWait(100); // Wait for 100 milliseconds to ensure the UI is ready
+                                    Slot? slot = inventoryEquipment?.GetSlot(EquipmentSlot.ArmBand);
+                                    itemToTest = slot?.ContainedItem;
+                                    itemId = slot?.ContainedItem.Id;
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    if (enableLogging)
+                    {
+                        Logger?.LogInfo("belt slot in the right place");
+                    }
+                    return;
+                }
+            }
+        }
+
+        // Updates the armband slot and opens the belt slot if the item in the armband slot has changed
+        private void UpdateArmbandSlot()
+        {
+            if (!testScene() && !testInRaidScene())
+            {
+                return;
+            }
+            if (getCurrentScene() != "CommonUIScene" && getCurrentScene() != "MenuUIScene" && !testInRaidScene())
+            {
+                return;
+            }
+            if (!getHideoutLoading())
+            {
+                return;
+            }
+            // do not trigger if inventory screen is not focused or input field is focused
+            if (isInventoryScreenFocus() && !isInputFieldFocused())
+            {
+                if (UiMappings?.beltSlot == null)
+                {
+                    UiMappings?.setContainer_Mappings();
+                    UiMappings?.setBeltSlot_Settings();
+                    UiMappings?.setPrelaoderUI_Mappings();
+                }
+                //await pauseWait(100); // Wait for 100 milliseconds to ensure the UI is ready
+                if (beltToggle)
+                {
+                    if(TestItem(itemId))
+                    {
+                        if (!TestBeltHasGrid())
+                        {
+                            OpenBelt(10);
+                        }
+                    }
+                }
+                RefreshBeltSlot();
+            }
+        }
+
+        // Refreshes the belt slot if the item in the armband slot has not changed but the belt slot is not open
         private void RefreshBeltSlot()
         {
             if (!testScene() && !testInRaidScene())
@@ -662,7 +647,6 @@ namespace BeltSlot
                         if (!TestBeltHasGrid())
                         {
                             OpenBelt(10);
-                            //OpenBelt(10); // Open the belt slot after closing it
                         }
                     }
                 }
@@ -670,9 +654,10 @@ namespace BeltSlot
             return;
         }
 
-        private async void OpenBelt(int wait)
+        // Opens the belt slot by simulating a click on the armband slot
+        private void OpenBelt(int wait)
         {
-            await pauseWait(wait); // Wait for 1 second to ensure the UI is ready
+            //await pauseWait(wait); // Wait for 1 second to ensure the UI is ready
             Vector2 mousePosition = Input.mousePosition;
             //LogSource?.LogInfo("mouse position: " + mousePosition);
             // This bit of code finally does what I was wanting to do, it opens whatever item is in the ArmBand slot
@@ -681,16 +666,29 @@ namespace BeltSlot
                 return;
             }
             GameObject? armBandClone = uiMappings?.armBandSlot?.transform.GetChild(8).gameObject;
-            await pauseWait(wait); // Wait for 100 milliseconds to ensure the UI is ready
+            //await pauseWait(wait); // Wait for 100 milliseconds to ensure the UI is ready
             SlotItemView? slotItemView = armBandClone?.GetComponent<SlotItemView>();
-            await pauseWait(wait); // Wait for 100 milliseconds to ensure the UI is ready
+            //await pauseWait(wait); // Wait for 100 milliseconds to ensure the UI is ready
             slotItemView?.OnClick(PointerEventData.InputButton.Left, mousePosition, true);
-            await pauseWait(wait);
+            //await pauseWait(wait);
             UiMappings?.setBeltSlotGrid();
             return;
             // Code above is equivalent to clicking the ArmBand slot with the mouse, which opens the item in that slot
         }
 
+        // Clears the belt grid if the toggle is off
+        private void ClearBeltGrid()
+        {
+            if(!beltToggle)
+            {
+                if(TestBeltHasGrid())
+                {
+                    CloseBelt();
+                }
+            }
+        }
+
+        // Closes the belt slot by simulating a click on the close button
         private void CloseBelt()
         {
             itemToTest = null; // Clear the item to test
@@ -700,5 +698,40 @@ namespace BeltSlot
             UiMappings?.getGridWindowClone().SetActive(true);
             uiMappings?.getCloseButton(UiMappings?.getGridWindowClone()).OnPointerClick(new PointerEventData(EventSystem.current));
         }
+
+        // Doesn't do what I wanted, just gives extra null reference errors.  Was meant to help and open the belt tab
+        // while in raid.  Might want to revisit it
+        /*private void InRaidGridHelper()
+        {
+            if(!testInRaidScene())
+            {
+                return;
+            }
+            if(isInventoryScreenFocus())
+            {
+                if (uiMappings?.lootContainerGameObject == null)
+                {
+                    uiMappings?.setComplexLootUI_Mappings();
+                    if (beltToggle)
+                    {
+                        if (!TestBeltHasGrid())
+                        {
+                            if ((bool)(uiMappings?.lootContainerGameObject.activeSelf))
+                            {
+                                OpenBelt(100);
+                            }
+                        }
+                    }
+                }
+                else if (beltToggle)
+                {
+                    if (!TestBeltHasGrid())
+                    {
+                        OpenBelt(100);
+                    }
+                }
+            }
+        }*/
+        #endregion
     }
 }

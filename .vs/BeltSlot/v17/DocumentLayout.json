@@ -7,20 +7,20 @@
       "RelativeMoniker": "D:0:0:{C396FFB1-CBBE-4849-BC02-1172F8BDDF77}|BeltSlot.csproj|solutionrelative:plugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{C396FFB1-CBBE-4849-BC02-1172F8BDDF77}|BeltSlot.csproj|d:\\sp-tarkov dev\\development\\beltslot\\patches\\inventoryequipmentpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C396FFB1-CBBE-4849-BC02-1172F8BDDF77}|BeltSlot.csproj|solutionrelative:patches\\inventoryequipmentpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C396FFB1-CBBE-4849-BC02-1172F8BDDF77}|BeltSlot.csproj|d:\\sp-tarkov dev\\development\\beltslot\\patches\\gridwindowpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C396FFB1-CBBE-4849-BC02-1172F8BDDF77}|BeltSlot.csproj|solutionrelative:patches\\gridwindowpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C396FFB1-CBBE-4849-BC02-1172F8BDDF77}|BeltSlot.csproj|d:\\sp-tarkov dev\\development\\beltslot\\patches\\itemuicontextpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C396FFB1-CBBE-4849-BC02-1172F8BDDF77}|BeltSlot.csproj|solutionrelative:patches\\itemuicontextpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C396FFB1-CBBE-4849-BC02-1172F8BDDF77}|BeltSlot.csproj|d:\\sp-tarkov dev\\development\\beltslot\\helpers\\ui mappings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C396FFB1-CBBE-4849-BC02-1172F8BDDF77}|BeltSlot.csproj|solutionrelative:helpers\\ui mappings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C396FFB1-CBBE-4849-BC02-1172F8BDDF77}|BeltSlot.csproj|d:\\sp-tarkov dev\\development\\beltslot\\patches\\contextmenushortcutpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C396FFB1-CBBE-4849-BC02-1172F8BDDF77}|BeltSlot.csproj|solutionrelative:patches\\contextmenushortcutpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C396FFB1-CBBE-4849-BC02-1172F8BDDF77}|BeltSlot.csproj|d:\\sp-tarkov dev\\development\\beltslot\\patches\\slotitemviewpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C396FFB1-CBBE-4849-BC02-1172F8BDDF77}|BeltSlot.csproj|solutionrelative:patches\\slotitemviewpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C396FFB1-CBBE-4849-BC02-1172F8BDDF77}|BeltSlot.csproj|d:\\sp-tarkov dev\\development\\beltslot\\r.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C396FFB1-CBBE-4849-BC02-1172F8BDDF77}|BeltSlot.csproj|solutionrelative:r.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,52 +34,55 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ContextMenuShortcutPatch.cs",
-              "DocumentMoniker": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Patches\\ContextMenuShortcutPatch.cs",
-              "RelativeDocumentMoniker": "Patches\\ContextMenuShortcutPatch.cs",
-              "ToolTip": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Patches\\ContextMenuShortcutPatch.cs",
-              "RelativeToolTip": "Patches\\ContextMenuShortcutPatch.cs",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAAAFIAAAANAAAA",
+              "DocumentIndex": 1,
+              "Title": "InventoryEquipmentPatch.cs",
+              "DocumentMoniker": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Patches\\InventoryEquipmentPatch.cs",
+              "RelativeDocumentMoniker": "Patches\\InventoryEquipmentPatch.cs",
+              "ToolTip": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Patches\\InventoryEquipmentPatch.cs",
+              "RelativeToolTip": "Patches\\InventoryEquipmentPatch.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAA6AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-11T01:08:07.675Z"
+              "WhenOpened": "2025-06-13T01:30:48.629Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GridWindowPatch.cs",
+              "DocumentMoniker": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Patches\\GridWindowPatch.cs",
+              "RelativeDocumentMoniker": "Patches\\GridWindowPatch.cs",
+              "ToolTip": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Patches\\GridWindowPatch.cs",
+              "RelativeToolTip": "Patches\\GridWindowPatch.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-12T23:43:22.339Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "SlotItemViewPatch.cs",
-              "DocumentMoniker": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Patches\\SlotItemViewPatch.cs",
-              "RelativeDocumentMoniker": "Patches\\SlotItemViewPatch.cs",
-              "ToolTip": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Patches\\SlotItemViewPatch.cs",
-              "RelativeToolTip": "Patches\\SlotItemViewPatch.cs",
-              "ViewState": "AQIAAA0AAAAAAAAAAAA1wCMAAAAoAAAA",
+              "Title": "ItemUiContextPatch.cs",
+              "DocumentMoniker": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Patches\\ItemUiContextPatch.cs",
+              "RelativeDocumentMoniker": "Patches\\ItemUiContextPatch.cs",
+              "ToolTip": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Patches\\ItemUiContextPatch.cs",
+              "RelativeToolTip": "Patches\\ItemUiContextPatch.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAABbAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-10T21:16:14.329Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UI Mappings.cs",
-              "DocumentMoniker": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Helpers\\UI Mappings.cs",
-              "RelativeDocumentMoniker": "Helpers\\UI Mappings.cs",
-              "ToolTip": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Helpers\\UI Mappings.cs",
-              "RelativeToolTip": "Helpers\\UI Mappings.cs",
-              "ViewState": "AQIAABEAAAAAAAAAAAAQwFQAAAAZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-10T18:49:43.267Z",
+              "WhenOpened": "2025-06-10T21:16:14.329Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "R.cs",
-              "DocumentMoniker": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\R.cs",
-              "RelativeDocumentMoniker": "R.cs",
-              "ToolTip": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\R.cs",
-              "RelativeToolTip": "R.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAPMBAAAUAAAA",
+              "Title": "UI Mappings.cs",
+              "DocumentMoniker": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Helpers\\UI Mappings.cs",
+              "RelativeDocumentMoniker": "Helpers\\UI Mappings.cs",
+              "ToolTip": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Helpers\\UI Mappings.cs",
+              "RelativeToolTip": "Helpers\\UI Mappings.cs",
+              "ViewState": "AQIAADAAAAAAAAAAAAAMwFQAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-08T16:22:45.691Z"
+              "WhenOpened": "2025-06-10T18:49:43.267Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -89,7 +92,7 @@
               "RelativeDocumentMoniker": "Plugin.cs",
               "ToolTip": "D:\\SP-Tarkov Dev\\Development\\BeltSlot\\Plugin.cs",
               "RelativeToolTip": "Plugin.cs",
-              "ViewState": "AQIAAB8BAAAAAAAAAAAIwGIBAABRAAAA",
+              "ViewState": "AQIAABoAAAAAAAAAAAAxwMUBAABXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-05T16:12:40.049Z",
               "EditorCaption": ""
