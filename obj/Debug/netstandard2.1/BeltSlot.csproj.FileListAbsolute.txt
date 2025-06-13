@@ -141,3 +141,4 @@ D:\SP-Tarkov Dev\Development\BeltSlot\obj\Debug\netstandard2.1\BeltSlot.csproj.C
 D:\SP-Tarkov Dev\Development\BeltSlot\obj\Debug\netstandard2.1\BeltSlot.csproj.Up2Date
 D:\SP-Tarkov Dev\Development\BeltSlot\obj\Debug\netstandard2.1\BeltSlot.dll
 D:\SP-Tarkov Dev\Development\BeltSlot\obj\Debug\netstandard2.1\BeltSlot.pdb
+D:\SP-Tarkov Dev\Development\BeltSlot\obj\Debug\netstandard2.1\BeltSlot.sourcelink.json

@@ -1,5 +1,7 @@
-﻿using EFT.UI;
+﻿using Comfort.Common;
+using EFT.UI;
 using EFT.UI.DragAndDrop;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,19 +12,21 @@ namespace BeltSlot.Helpers
     {
         #region Variables
         // Main Menu UI Elements
-        public GameObject? containerGameObject = null;
+        public GameObject containerGameObject = null;
         public GameObject? lootContainerGameObject = null;
-        public GameObject? slotTemplate = null;
-        public GameObject? dogtagTemplate = null;
-        public GameObject? compassTemplate = null;
-        public GameObject? tacticalVestSlot = null;
+        public GameObject slotTemplate = null;
+        //public GameObject? dogtagTemplate = null;
+        //public GameObject? compassTemplate = null;
+        //public GameObject? tacticalVestSlot = null;
         public GameObject? beltSlot = null;
-        public GameObject? pocketsSlot = null;
-        public GameObject? backpackSlot = null;
-        public GameObject? securedContainerSlot = null;
-        public GameObject? armBandSlot = null;
+        //public GameObject? pocketsSlot = null;
+        //public GameObject? backpackSlot = null;
+        //public GameObject? securedContainerSlot = null;
+        public GameObject armBandSlot = null;
         public GameObject? windowsPlaceHolder = null;
         public GameObject? windowCloseButton = null;
+        public InventoryScreen? inventoryScreen = null;
+        public PreloaderUI? preloaderUI = null;
 
         public GameObject[]? windowsPlaceHolderArray = null;
         #endregion
@@ -31,33 +35,54 @@ namespace BeltSlot.Helpers
         // Mappings of container view in the inventory screen
         public void setContainer_Mappings()
         {
-            containerGameObject = GameObject.Find("Common UI/Common UI/InventoryScreen/Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content")?.gameObject;
-            slotTemplate = GameObject.Find("Common UI/Common UI/InventoryScreen/Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content/Slot Template")?.gameObject;
-            dogtagTemplate = GameObject.Find("Common UI/Common UI/InventoryScreen/Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content/DogtagTemplate")?.gameObject;
-            compassTemplate = GameObject.Find("Common UI/Common UI/InventoryScreen/Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content/CompassTemplate")?.gameObject;
-            tacticalVestSlot = GameObject.Find("Common UI/Common UI/InventoryScreen/Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content/TacticalVest Slot")?.gameObject;
-            pocketsSlot = GameObject.Find("Common UI/Common UI/InventoryScreen/Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content/Pockets Slot")?.gameObject;
-            backpackSlot = GameObject.Find("Common UI/Common UI/InventoryScreen/Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content/Backpack Slot")?.gameObject;
-            securedContainerSlot = GameObject.Find("Common UI/Common UI/InventoryScreen/Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content/SecuredContainer Slot")?.gameObject;
+            if(inventoryScreen == null)
+            {
+                inventoryScreen = Singleton<CommonUI>.Instance.InventoryScreen;
+            }
+
+            //containerGameObject = GameObject.Find("Common UI/Common UI/InventoryScreen/Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content")?.gameObject;
+            containerGameObject = inventoryScreen.transform.Find("Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content").gameObject;
+            slotTemplate = containerGameObject.transform.Find("Slot Template").gameObject;
+            //dogtagTemplate = containerGameObject?.transform.Find("Dogtag Template")?.gameObject;
+            //compassTemplate = containerGameObject?.transform.Find("Compass Template")?.gameObject;
+            //tacticalVestSlot = containerGameObject?.transform.Find("TacticalVest Slot")?.gameObject;
+            //pocketsSlot = containerGameObject?.transform.Find("Pockets Slot")?.gameObject;
+            //backpackSlot = containerGameObject?.transform.Find("Backpack Slot")?.gameObject;
+            //securedContainerSlot = containerGameObject?.transform.Find("SecuredContainer Slot")?.gameObject;
         }
 
         // Mappings of equipment view in the inventory screen, currently just the armband slot
         public void setEquipment_Mappings()
         {
-            armBandSlot = GameObject.Find("Common UI/Common UI/InventoryScreen/Items Panel/LeftSide/Left Panel/Gear Panel/ArmBand Slot")?.gameObject;
+            if (inventoryScreen == null)
+            {
+                inventoryScreen = Singleton<CommonUI>.Instance.InventoryScreen;
+            }
+            GameObject leftPanel = inventoryScreen.transform.Find("Items Panel/LeftSide/Left Panel").gameObject;
+            //armBandSlot = inventoryScreen.transform.Find("Items Panel/LeftSide/Left Panel/Gear Panel/ArmBand Slot").gameObject;
+            armBandSlot = leftPanel.transform.Find("Gear Panel/ArmBand Slot").gameObject;
         }
 
         // Mappings of preloader UI elements
         public void setPrelaoderUI_Mappings()
         {
-            windowsPlaceHolder = GameObject.Find("Preloader UI/Preloader UI/UIContext/WindowsPlaceholder")?.gameObject;
-            windowCloseButton = GameObject.Find("Preloader UI/Preloader UI/UIContext/WindowsPlaceholder/WindowCloseButton")?.gameObject;
+            if(preloaderUI == null)
+            {
+                preloaderUI = Singleton<PreloaderUI>.Instance;
+            }
+            //windowsPlaceHolder = GameObject.Find("Preloader UI/Preloader UI/UIContext/WindowsPlaceholder")?.gameObject;
+            windowsPlaceHolder = preloaderUI.transform.Find("Preloader UI/UIContext/WindowsPlaceholder")?.gameObject;
+            windowCloseButton = preloaderUI.transform.Find("Preloader UI/UIContext/WindowsPlaceholder/WindowCloseButton")?.gameObject;
         }
 
         // Mappings of complex loot container view in the inventory screen, currently not used
         public void setComplexLootUI_Mappings()
         {
-            lootContainerGameObject = GameObject.Find("Common UI/Common UI/InventoryScreen/Items Panel/Items Panel/Stash Panel/Complex Loot Panel/Containers Scrollview/Content")?.gameObject;
+            if (inventoryScreen == null)
+            {
+                inventoryScreen = Singleton<CommonUI>.Instance.InventoryScreen;
+            }
+            lootContainerGameObject = inventoryScreen.transform.Find("Items Panel/Items Panel/Stash Panel/Complex Loot Panel/Containers Scrollview/Content")?.gameObject;
         }
 
         // Mappings of the belt slot, which is instantiated from the slot template
@@ -145,6 +170,12 @@ namespace BeltSlot.Helpers
             GameObject captionPanel = button.transform.GetChild(3).gameObject; // Get the close button of the grid window
             GameObject closeButton = captionPanel.transform.GetChild(6).gameObject; // Get the close button of the grid window
             return closeButton.GetComponentInChildren<Button>();
+        }
+
+        private static async Task pauseWait(int wait)
+        {
+            // A pause method that waits for a specified amount of time
+            await Task.Delay(wait);
         }
     }
 }

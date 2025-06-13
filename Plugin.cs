@@ -461,6 +461,10 @@ namespace BeltSlot
         // not sure if it worked
         private void LateUpdate()
         {
+            if (!Singleton<CommonUI>.Instantiated)
+            {
+                return;
+            }
             // Checks if inventory open and sets the inventoryEquipment variable
             OnEnterInventory();
 
