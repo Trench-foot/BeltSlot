@@ -13,22 +13,18 @@ namespace BeltSlot.Helpers
         #region Variables
         // Main Menu UI Elements
         public GameObject containerGameObject = null;
-        public GameObject? lootContainerGameObject = null;
+        public GameObject lootContainerGameObject = null;
         public GameObject slotTemplate = null;
-        //public GameObject? dogtagTemplate = null;
-        //public GameObject? compassTemplate = null;
-        //public GameObject? tacticalVestSlot = null;
-        public GameObject? beltSlot = null;
-        //public GameObject? pocketsSlot = null;
-        //public GameObject? backpackSlot = null;
-        //public GameObject? securedContainerSlot = null;
+        public GameObject beltSlot = null;
         public GameObject armBandSlot = null;
-        public GameObject? windowsPlaceHolder = null;
-        public GameObject? windowCloseButton = null;
-        public InventoryScreen? inventoryScreen = null;
-        public PreloaderUI? preloaderUI = null;
+        public GameObject windowsPlaceHolder = null;
+        public GameObject windowCloseButton = null;
+        public ToggleButton toggleButton = null;
+        public InventoryScreen inventoryScreen = null;
+        public PreloaderUI preloaderUI = null;
+        public bool noActiveWindow = false;
 
-        public GameObject[]? windowsPlaceHolderArray = null;
+        public GameObject[] windowsPlaceHolderArray = null;
         #endregion
 
         #region Game Object Mappings
@@ -39,16 +35,8 @@ namespace BeltSlot.Helpers
             {
                 inventoryScreen = Singleton<CommonUI>.Instance.InventoryScreen;
             }
-
-            //containerGameObject = GameObject.Find("Common UI/Common UI/InventoryScreen/Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content")?.gameObject;
             containerGameObject = inventoryScreen.transform.Find("Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content").gameObject;
             slotTemplate = containerGameObject.transform.Find("Slot Template").gameObject;
-            //dogtagTemplate = containerGameObject?.transform.Find("Dogtag Template")?.gameObject;
-            //compassTemplate = containerGameObject?.transform.Find("Compass Template")?.gameObject;
-            //tacticalVestSlot = containerGameObject?.transform.Find("TacticalVest Slot")?.gameObject;
-            //pocketsSlot = containerGameObject?.transform.Find("Pockets Slot")?.gameObject;
-            //backpackSlot = containerGameObject?.transform.Find("Backpack Slot")?.gameObject;
-            //securedContainerSlot = containerGameObject?.transform.Find("SecuredContainer Slot")?.gameObject;
         }
 
         // Mappings of equipment view in the inventory screen, currently just the armband slot
@@ -58,9 +46,7 @@ namespace BeltSlot.Helpers
             {
                 inventoryScreen = Singleton<CommonUI>.Instance.InventoryScreen;
             }
-            GameObject leftPanel = inventoryScreen.transform.Find("Items Panel/LeftSide/Left Panel").gameObject;
-            //armBandSlot = inventoryScreen.transform.Find("Items Panel/LeftSide/Left Panel/Gear Panel/ArmBand Slot").gameObject;
-            armBandSlot = leftPanel.transform.Find("Gear Panel/ArmBand Slot").gameObject;
+            armBandSlot = inventoryScreen.transform.Find("Items Panel/LeftSide/Left Panel/Gear Panel/ArmBand Slot").gameObject;
         }
 
         // Mappings of preloader UI elements
@@ -70,9 +56,7 @@ namespace BeltSlot.Helpers
             {
                 preloaderUI = Singleton<PreloaderUI>.Instance;
             }
-            //windowsPlaceHolder = GameObject.Find("Preloader UI/Preloader UI/UIContext/WindowsPlaceholder")?.gameObject;
-            windowsPlaceHolder = preloaderUI.transform.Find("Preloader UI/UIContext/WindowsPlaceholder")?.gameObject;
-            windowCloseButton = preloaderUI.transform.Find("Preloader UI/UIContext/WindowsPlaceholder/WindowCloseButton")?.gameObject;
+            windowsPlaceHolder = preloaderUI.transform.Find("Preloader UI/UIContext/WindowsPlaceholder").gameObject;
         }
 
         // Mappings of complex loot container view in the inventory screen, currently not used
@@ -82,7 +66,7 @@ namespace BeltSlot.Helpers
             {
                 inventoryScreen = Singleton<CommonUI>.Instance.InventoryScreen;
             }
-            lootContainerGameObject = inventoryScreen.transform.Find("Items Panel/Items Panel/Stash Panel/Complex Loot Panel/Containers Scrollview/Content")?.gameObject;
+            lootContainerGameObject = inventoryScreen.transform.Find("Items Panel/Items Panel/Stash Panel/Complex Loot Panel/Containers Scrollview/Content").gameObject;
         }
 
         // Mappings of the belt slot, which is instantiated from the slot template
@@ -93,6 +77,37 @@ namespace BeltSlot.Helpers
 
         }
         #endregion
+
+        // Sets the priority window
+        public void setWindowPriorityButton()
+        {
+            setWindowsPlaceHolderArray();
+            if ((windowsPlaceHolderArray.Length) <= 15)
+            {
+                noActiveWindow = true;
+                return;
+            }
+            GameObject windowClone = getGridWindowClone();
+            if (windowClone == null)
+            {
+                noActiveWindow = true;
+                return;
+            }
+            if (windowClone.transform.childCount <= 6)
+            {
+                noActiveWindow = true;
+                return;
+            }
+            if(!windowClone.activeSelf)
+            {
+                noActiveWindow = true;
+                return;
+            }
+            GameObject captionPanel = windowClone.transform.GetChild(3).gameObject;
+            GameObject priorityButton = captionPanel.transform.GetChild(5).gameObject;
+            toggleButton = priorityButton.GetComponent<ToggleButton>();
+            noActiveWindow = false;
+        }
 
         // Set the windows placeholder array by getting all the child GameObjects of the windows placeholder GameObject
         public void setWindowsPlaceHolderArray()
@@ -108,7 +123,7 @@ namespace BeltSlot.Helpers
         }
 
         // Set the settings of the belt slot, such as its position, name, and visibility
-        public void setBeltSlot_Settings()
+        public void setBeltSlot_Settings(int location)
         {
             if(beltSlot == null)
             {
@@ -116,7 +131,7 @@ namespace BeltSlot.Helpers
             }
             if(beltSlot != null)
             {
-                beltSlot.transform.SetSiblingIndex(4); // Set the belt slot to be the 4th item in the container list
+                beltSlot.transform.SetSiblingIndex(location); // Set the belt slot to be the 4th item in the container list
                 GameObject _headerPanel = beltSlot.transform.GetChild(0).gameObject; // Header panel of the belt slot
                 GameObject _slotPanel = beltSlot.transform.GetChild(1).gameObject; // Slot panel of the belt slot
                 GameObject _slotViewHeader = _headerPanel.transform.GetChild(1).gameObject; // Slot view header of the belt slot
@@ -135,7 +150,7 @@ namespace BeltSlot.Helpers
         public void setBeltSlotGrid()
         {
             setWindowsPlaceHolderArray();
-            if((windowsPlaceHolderArray?.Length) <= 15)
+            if((windowsPlaceHolderArray.Length) <= 15)
             {
                 return;
             }
@@ -158,8 +173,38 @@ namespace BeltSlot.Helpers
         public GameObject getGridWindowClone()
         {
             setWindowsPlaceHolderArray();
-            GameObject? gridWindowClone = windowsPlaceHolder?.transform.GetChild(16).gameObject; // Get the first child of the windows placeholder, which is the grid window template
-            gridWindowClone = windowsPlaceHolderArray?[windowsPlaceHolderArray.Length - 1];
+            GameObject gridWindowClone; // Get the first child of the windows placeholder, which is the grid window template
+            gridWindowClone = windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 1];
+
+            return gridWindowClone;
+        }
+
+        // Finds the original window of the belt grids
+        public GameObject getDisabledWindowClone()
+        {
+            setWindowsPlaceHolderArray();
+            GameObject gridWindowClone; // Get the first child of the windows placeholder, which is the grid window template
+            gridWindowClone = windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 1];
+            if (!windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 1].activeSelf)
+            {
+                gridWindowClone = windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 1];
+                return gridWindowClone;
+            }
+            else if(!windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 2].activeSelf)
+            {
+                gridWindowClone= windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 2];
+                return gridWindowClone;
+            }
+            else if(!windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 3].activeSelf)
+            {
+                gridWindowClone= windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 3];
+                return gridWindowClone;
+            }
+            else if(!windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 4].activeSelf)
+            {
+                gridWindowClone= windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 4];
+                return gridWindowClone;
+            }
 
             return gridWindowClone;
         }
@@ -167,9 +212,12 @@ namespace BeltSlot.Helpers
         // Get the close button of the grid window
         public Button getCloseButton(GameObject button)
         {
-            GameObject captionPanel = button.transform.GetChild(3).gameObject; // Get the close button of the grid window
-            GameObject closeButton = captionPanel.transform.GetChild(6).gameObject; // Get the close button of the grid window
-            return closeButton.GetComponentInChildren<Button>();
+            // Get caption panel
+            GameObject captionPanel = button.transform.Find("Caption Panel").gameObject;
+
+            // Get close button, no matter its position in the game object
+            GameObject closeButton = captionPanel.transform.Find("Close Button").gameObject;
+            return closeButton.GetComponent<Button>();
         }
 
         private static async Task pauseWait(int wait)

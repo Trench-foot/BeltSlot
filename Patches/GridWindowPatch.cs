@@ -12,18 +12,24 @@ namespace BeltSlot.Patches
     // Create the submenu options (inventory screen)
     public class GridWindowPatch : ModulePatch
     {
-        private static bool LoadingInsuranceActions = false;
-
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(GridWindow), nameof(GridWindow.method_2));
+            return AccessTools.Method(typeof(GridWindow), nameof(GridWindow.Show));
         }
 
         [PatchPrefix]
-        public static bool Prefix(GridWindow __instance, bool active)
+        static void Prefix()
         {
             //__instance.method_2(false);
-            return true;
+        }
+
+        [PatchPostfix]
+        static void PostFix()
+        {
+            if(Plugin.Instance != null)
+            {
+                //Plugin.Instance.windowLoaded = true;
+            }
         }
     }
 }

@@ -229,3 +229,13 @@ Content
 
 Sometimes doesnt perform the beltslot logic, no idea why.
 Add in a button to fix the issue if it fails to work.
+
+
+/////////////////////////
+// Window Priority Fix //
+/////////////////////////
+
+Preloader UI/Preloader UI/UIContext/WindowsPlaceholer/Grid Window Template(Clone)/Caption Panel/Priority
+EFT.UI.ToggleButton Component
+
+ToggleButton.UnityEngine.EventSystems.IPointerClickHandler.OnPointerClick(PointerEventData)
