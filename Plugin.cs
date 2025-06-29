@@ -1,6 +1,7 @@
 ﻿using BeltSlot.Helpers;
 using BeltSlot.Patches;
 using BepInEx;
+using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using Comfort.Common;
 using EFT;
@@ -12,6 +13,7 @@ using EFT.UI.Screens;
 using HarmonyLib;
 using SPT.Common.Utils;
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Timers;
@@ -25,6 +27,7 @@ namespace BeltSlot
 {
     [BepInPlugin("BeltSlot", "BeltSlot", "1.0.0")]
     [BepInDependency("com.SPT.core", "3.11.0")]
+    [BepInDependency("com.aaaWTT-PacknStrap.Core", BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin
     {
         #region Variables
@@ -46,6 +49,7 @@ namespace BeltSlot
         public static ManualLogSource? LogSource;
         private int beltSlotLocation = 3;
         private bool enableLogging = false;
+        public bool packNStrapInstalled;
         #endregion
 
         #region Test Methods
@@ -490,6 +494,7 @@ namespace BeltSlot
         // BaseUnityPlugin inherits MonoBehaviour, so you can use base unity functions like Awake() and Update()
         private void Awake()
         {
+            packNStrapInstalled = Chainloader.PluginInfos.Keys.Contains("com.aaaWTT-PacknStrap.Core");
             Settings.Init(Config);
             Plugin.Instance = this;
             UiMappings = new UI_Mappings();
@@ -500,6 +505,20 @@ namespace BeltSlot
             // Currently just used to get an instance of the inventory equipment screen
             new InventoryEquipmentPatch().Enable();
             new EquipmentTabPatch().Enable();
+
+            // Enables the correct patch based on if PackNStrap is installed or not
+            if (packNStrapInstalled)
+            {
+                new GetPrioritizedContainersPatch().Disable();
+                new GetPrioritizedContainersPackNStrapPatch().Enable();
+            }
+            else
+            {
+                new GetPrioritizedContainersPackNStrapPatch().Disable();
+                new GetPrioritizedContainersPatch().Enable();
+            }
+            //new manualprioritywindowpatch().enable();
+            //new quickmovetocontainersoverridepatch().enable();
         }
 
         // Using lateupdate because hoping it would fix issues with the belt grid not opening when it should
@@ -533,9 +552,14 @@ namespace BeltSlot
             ClearBeltGrid();
 
             // Sets custom window priority
-            setWindowPriority(windowToggle);
+            setWindowPriority(windowToggle, null);
 
-            //InRaidGridHelper();
+            // Not currenlty working, figuring it out
+            //if(Input.GetKeyDown(KeyCode.X))
+            //{
+            //    GameObject windowClone = uiMappings.getDisabledWindowClone();
+            //    setWindowPriority(true, windowClone);
+            //}
 
             // Test for current screen and send log message, for debuging purposes
             /*if (Input.GetKeyDown(KeyCode.O))
@@ -673,7 +697,7 @@ namespace BeltSlot
         }
 
         // Handles custom windows priority
-        private void setWindowPriority(bool isOn)
+        private void setWindowPriority(bool isOn, GameObject? target)
         {
             if (!testScene() && !testInRaidScene())
             {
@@ -694,12 +718,11 @@ namespace BeltSlot
             // do not trigger if inventory screen is not focused or input field is focused
             if (isInventoryScreenFocus() && !isInputFieldFocused())
             {
-                uiMappings.setWindowPriorityButton();
+                uiMappings.setWindowPriorityButton(target);
                 if(!UiMappings.noActiveWindow)
                 {
                     uiMappings.toggleButton.IsOn = isOn;
                 }
-
             }
         }
 
@@ -867,9 +890,9 @@ namespace BeltSlot
             GameObject armBandClone = uiMappings.armBandSlot.transform.GetChild(8).gameObject;
             SlotItemView slotItemView = armBandClone.GetComponent<SlotItemView>();
             slotItemView.OnClick(PointerEventData.InputButton.Left, mousePosition, true);
-            slotItemView.OnPointerEnter(new PointerEventData(EventSystem.current));
+            slotItemView.OnPointerExit(new PointerEventData(EventSystem.current));
 
-            setWindowPriority(false);
+            setWindowPriority(false, null);
 
             UiMappings.setBeltSlotGrid();
             return;
@@ -895,56 +918,12 @@ namespace BeltSlot
             itemId = "0000000000"; // Reset the item ID
             GameObject beltGrids = UiMappings.beltSlot.transform.GetChild(5).gameObject;
             GameObject windowClone = uiMappings.getDisabledWindowClone();
-            //LogSource.LogInfo(testClone);
             beltGrids.transform.parent = windowClone.transform;
-            //LogSource.LogInfo(beltGrids);
             windowClone.SetActive(true);
-
-            //GameObject captionPanel = button.transform.GetChild(3).gameObject; // Get the close button of the grid window
-            //GameObject captionPanel = windowClone.transform.Find("Caption Panel").gameObject; // Get the close button of the grid window
-            //LogSource.LogInfo(captionPanel);
-            //int count = captionPanel.transform.childCount - 1;
-            //GameObject closeButton = captionPanel.transform.GetChild(count).gameObject; // Get the close button of the grid window
-            //GameObject closeButton = captionPanel.transform.Find("Close Button").gameObject;
-            //LogSource.LogInfo(closeButton);
 
             uiMappings.getCloseButton(windowClone).OnPointerClick(new PointerEventData(EventSystem.current));
             
         }
-
-        // Doesn't do what I wanted, just gives extra null reference errors.  Was meant to help and open the belt tab
-        // while in raid.  Might want to revisit it
-        /*private void InRaidGridHelper()
-        {
-            if(!testInRaidScene())
-            {
-                return;
-            }
-            if(isInventoryScreenFocus())
-            {
-                if (uiMappings?.lootContainerGameObject == null)
-                {
-                    uiMappings?.setComplexLootUI_Mappings();
-                    if (beltToggle)
-                    {
-                        if (!TestBeltHasGrid())
-                        {
-                            if ((bool)(uiMappings?.lootContainerGameObject.activeSelf))
-                            {
-                                OpenBelt(100);
-                            }
-                        }
-                    }
-                }
-                else if (beltToggle)
-                {
-                    if (!TestBeltHasGrid())
-                    {
-                        OpenBelt(100);
-                    }
-                }
-            }
-        }*/
         #endregion
     }
 }

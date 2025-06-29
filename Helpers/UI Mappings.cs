@@ -79,13 +79,20 @@ namespace BeltSlot.Helpers
         #endregion
 
         // Sets the priority window
-        public void setWindowPriorityButton()
+        public void setWindowPriorityButton(GameObject? target)
         {
             setWindowsPlaceHolderArray();
             if ((windowsPlaceHolderArray.Length) <= 15)
             {
                 noActiveWindow = true;
                 return;
+            }
+            if(target != null)
+            {
+                GameObject targetCaption = target.transform.Find("Caption Panel").gameObject;
+                GameObject targetButton = targetCaption.transform.Find("Priority").gameObject;
+                toggleButton = targetButton.GetComponent<ToggleButton>();
+                noActiveWindow = false;
             }
             GameObject windowClone = getGridWindowClone();
             if (windowClone == null)
@@ -103,8 +110,8 @@ namespace BeltSlot.Helpers
                 noActiveWindow = true;
                 return;
             }
-            GameObject captionPanel = windowClone.transform.GetChild(3).gameObject;
-            GameObject priorityButton = captionPanel.transform.GetChild(5).gameObject;
+            GameObject captionPanel = windowClone.transform.Find("Caption Panel").gameObject;
+            GameObject priorityButton = captionPanel.transform.Find("Priority").gameObject;
             toggleButton = priorityButton.GetComponent<ToggleButton>();
             noActiveWindow = false;
         }
