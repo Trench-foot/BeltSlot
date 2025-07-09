@@ -1,13 +1,10 @@
 ﻿using EFT.InventoryLogic;
-using EFT.UI;
 using HarmonyLib;
+using PackNStrap.Core.Items;
 using SPT.Reflection.Patching;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using UnityEngine;
-using InventoryInteractions = GClass3471; // There are two child versions?
-using PackNStrap.Core.Items;
 //using PackNStrap.Helpers;
 
 namespace BeltSlot.Patches
@@ -36,6 +33,8 @@ namespace BeltSlot.Patches
             // Additional items for custom belt and tactical belt
             CustomBeltItemClass customBeltItemClass = slot5.ContainedItem as CustomBeltItemClass;
             VestItemClass tacticalBeltItemClass = slot5.ContainedItem as VestItemClass;
+
+            // Tactical Rig Location
             IEnumerable<EFT.InventoryLogic.IContainer> enumerable;
             if (vestItemClass != null)
             {
@@ -47,6 +46,8 @@ namespace BeltSlot.Patches
             enumerable = Enumerable.Empty<EFT.InventoryLogic.IContainer>();
             IL_0064:
             IEnumerable<EFT.InventoryLogic.IContainer> enumerable2 = enumerable;
+
+            // Backpack Location
             IEnumerable<EFT.InventoryLogic.IContainer> enumerable3;
             if (backpackItemClass != null)
             {
@@ -58,6 +59,8 @@ namespace BeltSlot.Patches
             enumerable3 = Enumerable.Empty<EFT.InventoryLogic.IContainer>();
             IL_007B:
             IEnumerable<EFT.InventoryLogic.IContainer> enumerable4 = enumerable3;
+
+            // Pockets Location
             IEnumerable<EFT.InventoryLogic.IContainer> enumerable5;
             if (pocketsItemClass != null)
             {
@@ -69,6 +72,8 @@ namespace BeltSlot.Patches
             enumerable5 = Enumerable.Empty<EFT.InventoryLogic.IContainer>();
             IL_0094:
             IEnumerable<EFT.InventoryLogic.IContainer> enumerable6 = enumerable5;
+
+            // Secured Container Location
             IEnumerable<EFT.InventoryLogic.IContainer> enumerable7;
             if (mobContainerItemClass != null)
             {

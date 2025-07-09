@@ -32,6 +32,7 @@ namespace BeltSlot.Patches
         {
             if(Plugin.Instance != null)
             {
+                Plugin.Instance.inventoryScreen = __instance;
                 Plugin.Instance.inventoryScreenLoaded = true;
             }
         }

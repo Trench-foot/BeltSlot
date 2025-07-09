@@ -9,47 +9,29 @@
     ".NETStandard,Version=v2.1/": {
       "BeltSlot/1.0.0": {
         "dependencies": {
-          "System.Threading.Tasks": "4.3.0",
           "0Harmony": "2.9.0.0",
           "Assembly-CSharp": "0.0.0.0",
           "BepInEx": "5.4.22.0",
           "Comfort": "1.0.0.4",
           "Comfort.Unity": "1.0.0.4",
-          "CommonExtensions": "0.0.0.0",
-          "ItemComponent.Types": "0.0.0.0",
           "Microsoft.CSharp": "4.0.0.0",
           "Newtonsoft.Json": "13.0.0.0",
           "Sirenix.Serialization": "1.0.0.0",
           "spt-common": "3.11.3.0",
           "spt-reflection": "3.11.3.0",
           "Unity.TextMeshPro": "0.0.0.0",
-          "UnityEngine.AnimationModule": "0.0.0.0",
+          "UnityEngine.AssetBundleModule": "0.0.0.0",
           "UnityEngine.CoreModule": "0.0.0.0",
           "UnityEngine": "0.0.0.0",
           "UnityEngine.IMGUIModule": "0.0.0.0",
           "UnityEngine.InputLegacyModule": "0.0.0.0",
+          "UnityEngine.PhysicsModule": "0.0.0.0",
           "UnityEngine.TextRenderingModule": "0.0.0.0",
           "UnityEngine.UI": "1.0.0.0",
-          "UnityEngine.UIModule": "0.0.0.0",
           "WTT-PackNStrap": "1.1.11.0"
         },
         "runtime": {
           "BeltSlot.dll": {}
-        }
-      },
-      "Microsoft.NETCore.Platforms/1.1.0": {},
-      "Microsoft.NETCore.Targets/1.1.0": {},
-      "System.Runtime/4.3.0": {
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "1.1.0",
-          "Microsoft.NETCore.Targets": "1.1.0"
-        }
-      },
-      "System.Threading.Tasks/4.3.0": {
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "1.1.0",
-          "Microsoft.NETCore.Targets": "1.1.0",
-          "System.Runtime": "4.3.0"
         }
       },
       "0Harmony/2.9.0.0": {
@@ -89,22 +71,6 @@
           "Comfort.Unity.dll": {
             "assemblyVersion": "1.0.0.4",
             "fileVersion": "1.0.0.4"
-          }
-        }
-      },
-      "CommonExtensions/0.0.0.0": {
-        "runtime": {
-          "CommonExtensions.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "ItemComponent.Types/0.0.0.0": {
-        "runtime": {
-          "ItemComponent.Types.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
           }
         }
       },
@@ -156,9 +122,9 @@
           }
         }
       },
-      "UnityEngine.AnimationModule/0.0.0.0": {
+      "UnityEngine.AssetBundleModule/0.0.0.0": {
         "runtime": {
-          "UnityEngine.AnimationModule.dll": {
+          "UnityEngine.AssetBundleModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -196,6 +162,14 @@
           }
         }
       },
+      "UnityEngine.PhysicsModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.PhysicsModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "UnityEngine.TextRenderingModule/0.0.0.0": {
         "runtime": {
           "UnityEngine.TextRenderingModule.dll": {
@@ -212,14 +186,6 @@
           }
         }
       },
-      "UnityEngine.UIModule/0.0.0.0": {
-        "runtime": {
-          "UnityEngine.UIModule.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
       "WTT-PackNStrap/1.1.11.0": {
         "runtime": {
           "WTT-PackNStrap.dll": {
@@ -228,27 +194,11 @@
           }
         }
       },
-      "ItemTemplate.Types/0.0.0.0": {
+      "UnityEngine.SharedInternalsModule/0.0.0.0": {
         "runtime": {
-          "ItemTemplate.Types.dll": {
+          "UnityEngine.SharedInternalsModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "Sirenix.Serialization.Config/1.0.0.0": {
-        "runtime": {
-          "Sirenix.Serialization.Config.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
-      },
-      "Sirenix.Utilities/1.0.0.0": {
-        "runtime": {
-          "Sirenix.Utilities.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -300,17 +250,25 @@
           }
         }
       },
-      "UnityEngine.PhysicsModule/0.0.0.0": {
+      "Assembly-CSharp-firstpass/0.0.0.0": {
         "runtime": {
-          "UnityEngine.PhysicsModule.dll": {
+          "Assembly-CSharp-firstpass.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
         }
       },
-      "Assembly-CSharp-firstpass/0.0.0.0": {
+      "UnityEngine.AnimationModule/0.0.0.0": {
         "runtime": {
-          "Assembly-CSharp-firstpass.dll": {
+          "UnityEngine.AnimationModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "UnityEngine.UIModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.UIModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -420,19 +378,19 @@
           }
         }
       },
-      "UnityEngine.AssetBundleModule/0.0.0.0": {
-        "runtime": {
-          "UnityEngine.AssetBundleModule.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
       "DOTween/1.0.0.0": {
         "runtime": {
           "DOTween.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "CommonExtensions/0.0.0.0": {
+        "runtime": {
+          "CommonExtensions.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
           }
         }
       },
@@ -500,6 +458,14 @@
           }
         }
       },
+      "ItemComponent.Types/0.0.0.0": {
+        "runtime": {
+          "ItemComponent.Types.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "UnityEngine.VideoModule/0.0.0.0": {
         "runtime": {
           "UnityEngine.VideoModule.dll": {
@@ -527,6 +493,14 @@
       "kcp/0.0.0.0": {
         "runtime": {
           "kcp.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "ItemTemplate.Types/0.0.0.0": {
+        "runtime": {
+          "ItemTemplate.Types.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -644,6 +618,14 @@
           }
         }
       },
+      "Sirenix.Utilities/1.0.0.0": {
+        "runtime": {
+          "Sirenix.Utilities.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "UnityEngine.WindModule/0.0.0.0": {
         "runtime": {
           "UnityEngine.WindModule.dll": {
@@ -673,6 +655,14 @@
           "UnityEngine.UnityWebRequestAssetBundleModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Sirenix.Serialization.Config/1.0.0.0": {
+        "runtime": {
+          "Sirenix.Serialization.Config.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -759,14 +749,6 @@
       "UnityEngine.PerformanceReportingModule/0.0.0.0": {
         "runtime": {
           "UnityEngine.PerformanceReportingModule.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "UnityEngine.SharedInternalsModule/0.0.0.0": {
-        "runtime": {
-          "UnityEngine.SharedInternalsModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -1092,34 +1074,6 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.NETCore.Platforms/1.1.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
-      "path": "microsoft.netcore.platforms/1.1.0",
-      "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
-    },
-    "Microsoft.NETCore.Targets/1.1.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-aOZA3BWfz9RXjpzt0sRJJMjAscAUm3Hoa4UWAfceV9UTYxgwZ1lZt5nO2myFf+/jetYQo4uTP7zS8sJY67BBxg==",
-      "path": "microsoft.netcore.targets/1.1.0",
-      "hashPath": "microsoft.netcore.targets.1.1.0.nupkg.sha512"
-    },
-    "System.Runtime/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-JufQi0vPQ0xGnAczR13AUFglDyVYt4Kqnz1AZaiKZ5+GICq0/1MH/mO/eAJHt/mHW1zjKBJd7kV26SrxddAhiw==",
-      "path": "system.runtime/4.3.0",
-      "hashPath": "system.runtime.4.3.0.nupkg.sha512"
-    },
-    "System.Threading.Tasks/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-LbSxKEdOUhVe8BezB/9uOGGppt+nZf6e1VFyw6v3DN6lqitm0OSn2uXMOdtP0M3W4iMcqcivm2J6UgqiwwnXiA==",
-      "path": "system.threading.tasks/4.3.0",
-      "hashPath": "system.threading.tasks.4.3.0.nupkg.sha512"
-    },
     "0Harmony/2.9.0.0": {
       "type": "reference",
       "serviceable": false,
@@ -1141,16 +1095,6 @@
       "sha512": ""
     },
     "Comfort.Unity/1.0.0.4": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "CommonExtensions/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "ItemComponent.Types/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1185,7 +1129,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "UnityEngine.AnimationModule/0.0.0.0": {
+    "UnityEngine.AssetBundleModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1210,6 +1154,11 @@
       "serviceable": false,
       "sha512": ""
     },
+    "UnityEngine.PhysicsModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "UnityEngine.TextRenderingModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
@@ -1220,27 +1169,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "UnityEngine.UIModule/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
     "WTT-PackNStrap/1.1.11.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
-    "ItemTemplate.Types/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Sirenix.Serialization.Config/1.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Sirenix.Utilities/1.0.0.0": {
+    "UnityEngine.SharedInternalsModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1275,12 +1209,17 @@
       "serviceable": false,
       "sha512": ""
     },
-    "UnityEngine.PhysicsModule/0.0.0.0": {
+    "Assembly-CSharp-firstpass/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
-    "Assembly-CSharp-firstpass/0.0.0.0": {
+    "UnityEngine.AnimationModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UnityEngine.UIModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1350,12 +1289,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "UnityEngine.AssetBundleModule/0.0.0.0": {
+    "DOTween/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
-    "DOTween/1.0.0.0": {
+    "CommonExtensions/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1400,6 +1339,11 @@
       "serviceable": false,
       "sha512": ""
     },
+    "ItemComponent.Types/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "UnityEngine.VideoModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
@@ -1416,6 +1360,11 @@
       "sha512": ""
     },
     "kcp/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ItemTemplate.Types/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1490,6 +1439,11 @@
       "serviceable": false,
       "sha512": ""
     },
+    "Sirenix.Utilities/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "UnityEngine.WindModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
@@ -1506,6 +1460,11 @@
       "sha512": ""
     },
     "UnityEngine.UnityWebRequestAssetBundleModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Sirenix.Serialization.Config/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1561,11 +1520,6 @@
       "sha512": ""
     },
     "UnityEngine.PerformanceReportingModule/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "UnityEngine.SharedInternalsModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

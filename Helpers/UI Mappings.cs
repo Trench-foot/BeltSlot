@@ -17,9 +17,10 @@ namespace BeltSlot.Helpers
         public GameObject slotTemplate = null;
         public GameObject beltSlot = null;
         public GameObject armBandSlot = null;
+        public GameObject healthParameter = null;
+        public GameObject healthPanel = null;
         public GameObject windowsPlaceHolder = null;
         public GameObject windowCloseButton = null;
-        //public GameObject widowedGridWindow = null;
         public ToggleButton toggleButton = null;
         public InventoryScreen inventoryScreen = null;
         public PreloaderUI preloaderUI = null;
@@ -40,14 +41,14 @@ namespace BeltSlot.Helpers
             slotTemplate = containerGameObject.transform.Find("Slot Template").gameObject;
         }
 
-        // Mappings of equipment view in the inventory screen, currently just the armband slot
-        public void setEquipment_Mappings()
+        public void setHealthPanel_Mappings()
         {
             if (inventoryScreen == null)
             {
                 inventoryScreen = Singleton<CommonUI>.Instance.InventoryScreen;
             }
-            armBandSlot = inventoryScreen.transform.Find("Items Panel/LeftSide/Left Panel/Gear Panel/ArmBand Slot").gameObject;
+            healthPanel = inventoryScreen.transform.Find("Items Panel/LeftSide/Left Panel/Health Panel").gameObject;
+            healthParameter = inventoryScreen.transform.Find("Items Panel/LeftSide/Left Panel/Health Parameters").gameObject;
         }
 
         // Mappings of preloader UI elements
@@ -70,68 +71,25 @@ namespace BeltSlot.Helpers
             lootContainerGameObject = inventoryScreen.transform.Find("Items Panel/Items Panel/Stash Panel/Complex Loot Panel/Containers Scrollview/Content").gameObject;
         }
 
-        // Mappings of the belt slot, which is instantiated from the slot template
+        // Mappings of the armband slot
+        public void setArmBand_Mappings()
+        {
+            if (inventoryScreen == null)
+            {
+                inventoryScreen = Singleton<CommonUI>.Instance.InventoryScreen;
+            }
+            armBandSlot = inventoryScreen.transform.Find("Items Panel/LeftSide/Left Panel/Gear Panel/ArmBand Slot").gameObject;
+        }
+
+        // Mappings of the belt slot
         public void setBeltSlot_Mappings()
         {
-
-            beltSlot = GameObject.Instantiate(slotTemplate, containerGameObject?.transform);
-
+            beltSlot = containerGameObject.transform.Find("ArmBand Slot").gameObject;
         }
         #endregion
 
-        // Sets the priority window
-        public void setWindowPriorityButton(GameObject? target)
-        {
-            setWindowsPlaceHolderArray();
-            if ((windowsPlaceHolderArray.Length) <= 15)
-            {
-                noActiveWindow = true;
-                return;
-            }
-            if(target != null)
-            {
-                GameObject targetCaption = target.transform.Find("Caption Panel").gameObject;
-                GameObject targetButton = targetCaption.transform.Find("Priority").gameObject;
-                toggleButton = targetButton.GetComponent<ToggleButton>();
-                noActiveWindow = false;
-            }
-            GameObject windowClone = getGridWindowClone();
-            if (windowClone == null)
-            {
-                noActiveWindow = true;
-                return;
-            }
-            if (windowClone.transform.childCount <= 6)
-            {
-                noActiveWindow = true;
-                return;
-            }
-            if(!windowClone.activeSelf)
-            {
-                noActiveWindow = true;
-                return;
-            }
-            GameObject captionPanel = windowClone.transform.Find("Caption Panel").gameObject;
-            GameObject priorityButton = captionPanel.transform.Find("Priority").gameObject;
-            toggleButton = priorityButton.GetComponent<ToggleButton>();
-            noActiveWindow = false;
-        }
-
-        // Set the windows placeholder array by getting all the child GameObjects of the windows placeholder GameObject
-        public void setWindowsPlaceHolderArray()
-        {
-            // Create a new array to hold the GameObjects
-            windowsPlaceHolderArray = new GameObject[windowsPlaceHolder.transform.childCount];
-
-            // Loop through the transforms and add the corresponding GameObject to the array
-            for (int i = 0; i < windowsPlaceHolder.transform.childCount; i++)
-            {
-                windowsPlaceHolderArray[i] = windowsPlaceHolder.transform.GetChild(i).gameObject;
-            }
-        }
-
         // Set the settings of the belt slot, such as its position, name, and visibility
-        public void setBeltSlot_Settings(int location)
+        public void setBeltSlot_Settings()
         {
             if(beltSlot == null)
             {
@@ -139,121 +97,66 @@ namespace BeltSlot.Helpers
             }
             if(beltSlot != null)
             {
-                beltSlot.transform.SetSiblingIndex(location); // Set the belt slot to be the 4th item in the container list
                 GameObject _headerPanel = beltSlot.transform.GetChild(0).gameObject; // Header panel of the belt slot
                 GameObject _slotPanel = beltSlot.transform.GetChild(1).gameObject; // Slot panel of the belt slot
                 GameObject _slotViewHeader = _headerPanel.transform.GetChild(1).gameObject; // Slot view header of the belt slot
                 GameObject _slotName = _slotViewHeader.transform.GetChild(2).gameObject; // Slot name of the belt slot
 
-                _slotPanel.SetActive(false); // Hide the slot panel
-                _slotViewHeader.GetComponent<SlotViewHeader>().Interactable = false; // Make the slot view header not interactable
-                _slotViewHeader.transform.GetChild(3).gameObject.SetActive(false); // Hide the arrow icon
                 _slotName.GetComponent<TextMeshProUGUI>().text = "BELT"; // Set the slot name to "BELT"
-
-                beltSlot.SetActive(true);
             }
         }
 
-        // Finds the grid window clone, moves the grids to the belt slot, and hides the window clone
-        public void setBeltSlotGrid()
+        public void toggleBeltSlotFull(bool full)
         {
-            setWindowsPlaceHolderArray();
-            if((windowsPlaceHolderArray.Length) <= 15)
+            if (beltSlot == null)
             {
-                return;
+                setBeltSlot_Mappings();
             }
-            GameObject windowClone = getGridWindowClone();
-            if(windowClone == null)
+            if (beltSlot != null)
             {
-                return;
-            }
-            if (windowClone.transform.childCount <= 6)
-            {
-                return;
-            }
-            GameObject beltGrid = windowClone.transform.GetChild(6).gameObject; // Get the sixth child of the window clone, which is the grid window
+                GameObject _slotPanel = beltSlot.transform.GetChild(1).gameObject; // Slot panel of the belt slot
 
-            beltGrid.transform.parent = beltSlot?.transform; // Set the parent of the grid to the belt slot
-            GridWindow gridWindow = windowClone.GetComponent<GridWindow>(); // Get the GridWindow component of the grid
-            //gridWindow.method_2(false); // Disable the grid window
-
-            windowClone.SetActive(false); // Hide the window clone
-            disableGridWindow(); // Disable the grid window clone
+                if(_slotPanel.transform.childCount >5)
+                {
+                    GameObject _backImage = _slotPanel.transform.GetChild(0).gameObject; // Back image of the belt slot
+                    GameObject _backGround = _slotPanel.transform.GetChild(1).gameObject; // Background of the belt slot
+                    GameObject _emptyBorder = _slotPanel.transform.GetChild(2).gameObject; // Empty border of the belt slot
+                    GameObject _fullBorder = _slotPanel.transform.GetChild(3).gameObject; // Full border of the belt slot
+                    GameObject _slotLayout = _slotPanel.transform.GetChild(4).gameObject; // Slot layout of the belt slot
+                    
+                    _backImage.SetActive(full); // Show the back image
+                    _backGround.SetActive(full); // Show the background
+                    _emptyBorder.SetActive(full); // Show the empty border
+                    _fullBorder.SetActive(!full); // Hide the full border
+                    _slotLayout.SetActive(!full); // Hide the slot layout
+                }    
+            }
         }
 
-        public void disableGridWindow()
+        public void toggleArmBandSlotFull(bool full)
         {
-            setWindowsPlaceHolderArray();
-            if ((windowsPlaceHolderArray.Length) <= 15)
+            if (armBandSlot == null)
             {
-                return;
+                setArmBand_Mappings();
             }
-            GameObject gridWindowClone = getGridWindowClone();
-            if (gridWindowClone == null)
+            if (armBandSlot != null)
             {
-                return;
+                GameObject _slotPanel = armBandSlot.transform.GetChild(1).gameObject; // Slot panel of the armband slot
+                if (armBandSlot.transform.childCount > 8)
+                {
+                    GameObject _backImage = armBandSlot.transform.GetChild(4).gameObject; // Back image of the armband slot
+                    GameObject _backGround = armBandSlot.transform.GetChild(5).gameObject; // Background of the armband slot
+                    GameObject _emptyBorder = armBandSlot.transform.GetChild(6).gameObject; // Empty border of the armband slot
+                    GameObject _fullBorder = armBandSlot.transform.GetChild(7).gameObject; // Full border of the armband slot
+                    GameObject _slotLayout = armBandSlot.transform.GetChild(8).gameObject; // Slot layout of the armband slot
+                    
+                    _backImage.SetActive(full); // Show the back image
+                    _backGround.SetActive(full); // Show the background
+                    _emptyBorder.SetActive(full); // Show the empty border
+                    _fullBorder.SetActive(!full); // Hide the full border
+                    _slotLayout.SetActive(!full); // Hide the slot layout
+                }
             }
-            if(gridWindowClone.transform.childCount > 6)
-            {
-                return;
-            }
-            //if(Plugin.Instance != null)
-            //{
-            //    Plugin.Instance.widowedGridWindow = gridWindowClone; // Store the grid window clone in the plugin instance for later use
-            //}
-            GridWindow gridWindow = gridWindowClone.GetComponent<GridWindow>();
-            gridWindow.method_2(false); // Disable the grid window
-        }
-
-        // Get the grid window clone from the windows placeholder array
-        public GameObject getGridWindowClone()
-        {
-            setWindowsPlaceHolderArray();
-            GameObject gridWindowClone; // Get the first child of the windows placeholder, which is the grid window template
-            gridWindowClone = windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 1];
-
-            return gridWindowClone;
-        }
-
-        // Finds the original window of the belt grids
-        public GameObject getDisabledWindowClone()
-        {
-            setWindowsPlaceHolderArray();
-            GameObject gridWindowClone; // Get the first child of the windows placeholder, which is the grid window template
-            gridWindowClone = windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 1];
-            if (!windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 1].activeSelf)
-            {
-                gridWindowClone = windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 1];
-                return gridWindowClone;
-            }
-            else if(!windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 2].activeSelf)
-            {
-                gridWindowClone= windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 2];
-                return gridWindowClone;
-            }
-            else if(!windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 3].activeSelf)
-            {
-                gridWindowClone= windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 3];
-                return gridWindowClone;
-            }
-            else if(!windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 4].activeSelf)
-            {
-                gridWindowClone= windowsPlaceHolderArray[windowsPlaceHolderArray.Length - 4];
-                return gridWindowClone;
-            }
-
-            return gridWindowClone;
-        }
-
-        // Get the close button of the grid window
-        public Button getCloseButton(GameObject button)
-        {
-            // Get caption panel
-            GameObject captionPanel = button.transform.Find("Caption Panel").gameObject;
-
-            // Get close button, no matter its position in the game object
-            GameObject closeButton = captionPanel.transform.Find("Close Button").gameObject;
-            return closeButton.GetComponent<Button>();
         }
     }
 }
