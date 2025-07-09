@@ -1,36 +1,44 @@
 ﻿using EFT.InventoryLogic;
 using EFT.UI;
-using EFT.UI.DragAndDrop;
 using HarmonyLib;
 using SPT.Reflection.Patching;
-using System.Numerics;
 using System.Reflection;
-using UnityEngine.EventSystems;
+using UnityEngine;
+using BeltSlot.Helpers;
+using InventoryInteractions = GClass3471; // There are two child versions?
 
 namespace BeltSlot.Patches
 {
-    internal class ItemUiContextPatch : ModulePatch // all patches must inherit ModulePatch
+    // Create the submenu options (inventory screen)
+    public class ItemUiContextPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
-            // one way methods can be patched is by targeting both their class name and the name of the method itself
-            // the example in this patch is the Jump() method in the Player class
-            return AccessTools.Method(typeof(ItemUiContext), nameof(ItemUiContext.QuickFindAppropriatePlace));
+            return AccessTools.Method(typeof(ItemUiContext), nameof(ItemUiContext.SetGridWindowSelectedAsTarget));
         }
 
-
         [PatchPrefix]
-        static void Prefix(ItemUiContext __instance)
+        public static bool Prefix(ItemUiContext __instance, GClass3544 context, ItemContextAbstractClass itemContext, bool active)
         {
-           
-            //Plugin.Instance.generatedGridsView = __instance.transform.parent.gameObject.GetComponentInChildren<GeneratedGridsView>().gameObject;
-            //return true;
+            if(Plugin.Instance == null)
+            {
+                return true; // If Plugin.Instance is null, we skip the patch
+            }
+            if(!Plugin.Instance.widowedGridWindow.activeSelf)
+            {
+                return false;
+            }
+            return true;
+            //__instance.method_2(false);
         }
 
         [PatchPostfix]
-        static void Postfix(ItemUiContext __instance)
+        static void PostFix()
         {
-
+            if(Plugin.Instance != null)
+            {
+                //Plugin.Instance.windowLoaded = true;
+            }
         }
     }
 }

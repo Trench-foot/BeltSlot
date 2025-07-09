@@ -78,10 +78,13 @@
     <Reference Include="UnityEngine.UIModule">
       <HintPath>..\..\EscapeFromTarkov_Data\Managed\UnityEngine.UIModule.dll</HintPath>
     </Reference>
+    <Reference Include="WTT-PackNStrap">
+      <HintPath>..\..\BepInEx\plugins\WTT-PackNStrap\WTT-PackNStrap.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)\..\..\BepInEx\plugins\$(TargetFileName)&quot;" />
+    <Exec Command="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)\..\..\BepInEx\plugins\BeltSlot\$(TargetFileName)&quot;" />
   </Target>
 
 </Project>

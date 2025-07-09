@@ -30,7 +30,8 @@
           "UnityEngine.InputLegacyModule": "0.0.0.0",
           "UnityEngine.TextRenderingModule": "0.0.0.0",
           "UnityEngine.UI": "1.0.0.0",
-          "UnityEngine.UIModule": "0.0.0.0"
+          "UnityEngine.UIModule": "0.0.0.0",
+          "WTT-PackNStrap": "1.1.11.0"
         },
         "runtime": {
           "BeltSlot.dll": {}
@@ -216,6 +217,14 @@
           "UnityEngine.UIModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "WTT-PackNStrap/1.1.11.0": {
+        "runtime": {
+          "WTT-PackNStrap.dll": {
+            "assemblyVersion": "1.1.11.0",
+            "fileVersion": "1.1.11.0"
           }
         }
       },
@@ -1212,6 +1221,11 @@
       "sha512": ""
     },
     "UnityEngine.UIModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "WTT-PackNStrap/1.1.11.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

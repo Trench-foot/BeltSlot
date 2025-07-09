@@ -11,8 +11,6 @@ namespace BeltSlot.Patches
     // Create the submenu options (inventory screen)
     public class InventoryEquipmentPatch : ModulePatch
     {
-        private static bool LoadingInsuranceActions = false;
-
         protected override MethodBase GetTargetMethod()
         {
             return AccessTools.Method(typeof(InventoryEquipment), nameof(InventoryEquipment.GetSlot));

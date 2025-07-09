@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BeltSlot")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1e6805abc346a4a8763eb2335e84f1db68573ca3")]
 [assembly: System.Reflection.AssemblyProductAttribute("BeltSlot")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BeltSlot")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
