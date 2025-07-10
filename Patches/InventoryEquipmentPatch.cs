@@ -1,10 +1,7 @@
 ﻿using EFT.InventoryLogic;
-using EFT.UI;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using System.Reflection;
-using UnityEngine;
-using InventoryInteractions = GClass3471; // There are two child versions?
 
 namespace BeltSlot.Patches
 {

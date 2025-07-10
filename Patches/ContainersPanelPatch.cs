@@ -1,7 +1,10 @@
-﻿using EFT;
+﻿using BeltSlot.Helpers;
+using EFT;
 using EFT.InventoryLogic;
 using EFT.UI;
 using EFT.UI.DragAndDrop;
+using EFT.UI.Matchmaker;
+using EFT.UI.Screens;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using System;
@@ -46,6 +49,64 @@ namespace BeltSlot.Patches
             }
 
             return true;
+        }
+    }
+
+    public class ContainersPanelPatch2 : ModulePatch
+    {
+        protected override MethodBase GetTargetMethod()
+        {
+            return AccessTools.Method(typeof(ContainersPanel), nameof(ContainersPanel.Show));
+        }
+        [PatchPostfix]
+        static void Postfix()
+        {
+            Plugin.Instance.Log.LogInfo($"[Belt Slots] ContainersPanelPatch2.Postfix called");
+
+            Plugin.Instance.SetArmbandSlotOnOpen();
+        }
+    }
+
+    public class MainMenuControllerClassPatch : ModulePatch
+    {
+        protected override MethodBase GetTargetMethod()
+        {
+            return AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_48));
+        }
+        [PatchPostfix]
+        static void Postfix()
+        {
+            Plugin.Instance.Log.LogInfo($"[Belt Slots] MatchmakerInsuranceScreenPatch.Postfix called");
+            Plugin.Instance.SetInsuranceArmbandSlot();
+        }
+    }
+
+    public class ComplexStashPanelPatch : ModulePatch
+    {
+        protected override MethodBase GetTargetMethod()
+        {
+            return AccessTools.Method(typeof(ComplexStashPanel), nameof(ComplexStashPanel.Show));
+        }
+        [PatchPostfix]
+        static void Postfix(ComplexStashPanel __instance)
+        {
+            Plugin.Instance.Log.LogInfo($"[Belt Slots] ComplexStashPanelPatch.Postfix called");
+            Plugin.Instance.SetRaidArmbandSlotOnOpen();
+            Plugin.Instance.complexStashPanelLoaded = true;
+        }
+    }
+
+    public class ComplexStashPanelPatch2 : ModulePatch
+    {
+        protected override MethodBase GetTargetMethod()
+        {
+            return AccessTools.Method(typeof(ComplexStashPanel), nameof(ComplexStashPanel.Close));
+        }
+        [PatchPostfix]
+        static void Postfix(ComplexStashPanel __instance)
+        {
+            Plugin.Instance.Log.LogInfo($"[Belt Slots] ComplexStashPanelPatch2.Postfix called");
+            Plugin.Instance.complexStashPanelLoaded = false;
         }
     }
 }

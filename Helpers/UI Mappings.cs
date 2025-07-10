@@ -1,6 +1,9 @@
 ﻿using Comfort.Common;
 using EFT.UI;
 using EFT.UI.DragAndDrop;
+using EFT.UI.Insurance;
+using EFT.UI.Matchmaker;
+using EFT.UI.Screens;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -13,16 +16,26 @@ namespace BeltSlot.Helpers
         #region Variables
         // Main Menu UI Elements
         public GameObject containerGameObject = null;
+        public GameObject equipmentGameObject = null;
         public GameObject lootContainerGameObject = null;
+        public GameObject lootEquipmentGameObject = null;
+        public GameObject lootArmBand = null;
+        public GameObject lootBeltSlot = null;
         public GameObject slotTemplate = null;
         public GameObject beltSlot = null;
         public GameObject armBandSlot = null;
         public GameObject healthParameter = null;
         public GameObject healthPanel = null;
-        public GameObject windowsPlaceHolder = null;
-        public GameObject windowCloseButton = null;
+        public GameObject insuranceScreenContainer = null;
+        public GameObject insuranceScreenGearPanel = null;
+        public GameObject insuranceBelt = null;
+        public GameObject insuranceArmBand = null;
+        public GameObject buildPanel = null;
+        public GameObject buildBeltSlot = null;
         public ToggleButton toggleButton = null;
         public InventoryScreen inventoryScreen = null;
+        public EquipmentBuildsScreen equipmentBuildsScreen = null;
+        public MatchmakerInsuranceScreen insuranceScreen = null;
         public PreloaderUI preloaderUI = null;
         public bool noActiveWindow = false;
 
@@ -30,17 +43,8 @@ namespace BeltSlot.Helpers
         #endregion
 
         #region Game Object Mappings
-        // Mappings of container view in the inventory screen
-        public void setContainer_Mappings()
-        {
-            if(inventoryScreen == null)
-            {
-                inventoryScreen = Singleton<CommonUI>.Instance.InventoryScreen;
-            }
-            containerGameObject = inventoryScreen.transform.Find("Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content").gameObject;
-            slotTemplate = containerGameObject.transform.Find("Slot Template").gameObject;
-        }
 
+        // Mappings of the health panel in the inventory screen
         public void setHealthPanel_Mappings()
         {
             if (inventoryScreen == null)
@@ -51,14 +55,43 @@ namespace BeltSlot.Helpers
             healthParameter = inventoryScreen.transform.Find("Items Panel/LeftSide/Left Panel/Health Parameters").gameObject;
         }
 
-        // Mappings of preloader UI elements
-        public void setPrelaoderUI_Mappings()
+        public void setBuildPanel_Mappings()
         {
-            if(preloaderUI == null)
+            if (equipmentBuildsScreen == null)
             {
-                preloaderUI = Singleton<PreloaderUI>.Instance;
+                equipmentBuildsScreen = Singleton<MenuUI>.Instance.EquipmentBuildsScreen;
             }
-            windowsPlaceHolder = preloaderUI.transform.Find("Preloader UI/UIContext/WindowsPlaceholder").gameObject;
+            buildPanel = equipmentBuildsScreen.transform.Find("Panels/Gear Panel/ViewPanel/Containers Panel/Containers Scrollview").gameObject;
+            buildBeltSlot = buildPanel.transform.Find("Content/ArmBand Slot").gameObject;
+            setBeltSlot_Settings(buildBeltSlot);
+        }
+
+        // Mappings of the inventory screen
+        public void setInventoryContainer_Mappings()
+        {
+            if (inventoryScreen == null)
+            {
+                inventoryScreen = Singleton<CommonUI>.Instance.InventoryScreen;
+            }
+            containerGameObject = inventoryScreen.transform.Find("Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content").gameObject;
+            equipmentGameObject = inventoryScreen.transform.Find("Items Panel/LeftSide/Left Panel/Gear Panel").gameObject;
+            armBandSlot = equipmentGameObject.transform.Find("ArmBand Slot").gameObject;
+            beltSlot = containerGameObject.transform.Find("ArmBand Slot").gameObject;
+            setBeltSlot_Settings(beltSlot);
+        }
+
+        // Mappings of the insurance screen in the matchmaker
+        public void setInsuranceScreen_Mappings()
+        {
+            if(insuranceScreen == null)
+            {
+                insuranceScreen = Singleton<MenuUI>.Instance.MatchmakerInsuranceScreen;
+            }
+            insuranceScreenContainer = insuranceScreen.transform.Find("ItemsPanel/Complex Loot Panel/Containers Scrollview/Content").gameObject;
+            insuranceScreenGearPanel = insuranceScreenContainer.transform.Find("Gear Panel Template(Clone)").gameObject;
+            insuranceArmBand = insuranceScreenGearPanel.transform.Find("ArmBand Slot").gameObject;
+            insuranceBelt = insuranceScreenContainer.transform.Find("ArmBand Slot").gameObject;
+            setBeltSlot_Settings(insuranceBelt);
         }
 
         // Mappings of complex loot container view in the inventory screen, currently not used
@@ -68,94 +101,121 @@ namespace BeltSlot.Helpers
             {
                 inventoryScreen = Singleton<CommonUI>.Instance.InventoryScreen;
             }
-            lootContainerGameObject = inventoryScreen.transform.Find("Items Panel/Items Panel/Stash Panel/Complex Loot Panel/Containers Scrollview/Content").gameObject;
-        }
-
-        // Mappings of the armband slot
-        public void setArmBand_Mappings()
-        {
-            if (inventoryScreen == null)
+            lootContainerGameObject = inventoryScreen.transform.Find("Items Panel/Stash Panel/Complex Loot Panel/Containers Scrollview/Content").gameObject;
+            lootEquipmentGameObject = lootContainerGameObject.transform.Find("Gear Panel Template(Clone)").gameObject;
+            lootArmBand = lootEquipmentGameObject.transform.Find("ArmBand Slot").gameObject;
+            if (lootArmBand.activeSelf)
             {
-                inventoryScreen = Singleton<CommonUI>.Instance.InventoryScreen;
+                lootBeltSlot = lootContainerGameObject.transform.Find("ArmBand Slot").gameObject;
+                setBeltSlot_Settings(lootBeltSlot);
             }
-            armBandSlot = inventoryScreen.transform.Find("Items Panel/LeftSide/Left Panel/Gear Panel/ArmBand Slot").gameObject;
         }
 
-        // Mappings of the belt slot
-        public void setBeltSlot_Mappings()
-        {
-            beltSlot = containerGameObject.transform.Find("ArmBand Slot").gameObject;
-        }
+
         #endregion
 
         // Set the settings of the belt slot, such as its position, name, and visibility
-        public void setBeltSlot_Settings()
+        public void setBeltSlot_Settings(GameObject targetBelt)
         {
-            if(beltSlot == null)
+            Plugin.Instance.Log.LogInfo($"[Belt Slots] setBeltSlot_Settings called for {targetBelt.name}");
+            if (targetBelt != null)
             {
-                setBeltSlot_Mappings();
-            }
-            if(beltSlot != null)
-            {
-                GameObject _headerPanel = beltSlot.transform.GetChild(0).gameObject; // Header panel of the belt slot
-                GameObject _slotPanel = beltSlot.transform.GetChild(1).gameObject; // Slot panel of the belt slot
+                GameObject _headerPanel = targetBelt.transform.GetChild(0).gameObject; // Header panel of the belt slot
+                GameObject _slotPanel = targetBelt.transform.GetChild(1).gameObject; // Slot panel of the belt slot
                 GameObject _slotViewHeader = _headerPanel.transform.GetChild(1).gameObject; // Slot view header of the belt slot
                 GameObject _slotName = _slotViewHeader.transform.GetChild(2).gameObject; // Slot name of the belt slot
 
                 _slotName.GetComponent<TextMeshProUGUI>().text = "BELT"; // Set the slot name to "BELT"
             }
-        }
-
-        public void toggleBeltSlotFull(bool full)
-        {
-            if (beltSlot == null)
+            else
             {
-                setBeltSlot_Mappings();
-            }
-            if (beltSlot != null)
-            {
-                GameObject _slotPanel = beltSlot.transform.GetChild(1).gameObject; // Slot panel of the belt slot
-
-                if(_slotPanel.transform.childCount >5)
-                {
-                    GameObject _backImage = _slotPanel.transform.GetChild(0).gameObject; // Back image of the belt slot
-                    GameObject _backGround = _slotPanel.transform.GetChild(1).gameObject; // Background of the belt slot
-                    GameObject _emptyBorder = _slotPanel.transform.GetChild(2).gameObject; // Empty border of the belt slot
-                    GameObject _fullBorder = _slotPanel.transform.GetChild(3).gameObject; // Full border of the belt slot
-                    GameObject _slotLayout = _slotPanel.transform.GetChild(4).gameObject; // Slot layout of the belt slot
-                    
-                    _backImage.SetActive(full); // Show the back image
-                    _backGround.SetActive(full); // Show the background
-                    _emptyBorder.SetActive(full); // Show the empty border
-                    _fullBorder.SetActive(!full); // Hide the full border
-                    _slotLayout.SetActive(!full); // Hide the slot layout
-                }    
+                return;
             }
         }
 
-        public void toggleArmBandSlotFull(bool full)
+        public void toggleBeltSlotFull(bool full, EEftScreenType currentScreen, GameObject target)
         {
-            if (armBandSlot == null)
+            switch (currentScreen)
             {
-                setArmBand_Mappings();
+                case EEftScreenType.Inventory:
+                    if (beltSlot == null)
+                    {
+                        setInventoryContainer_Mappings();
+                    }
+                    break;
+                case EEftScreenType.Insurance:
+                    if (insuranceBelt == null)
+                    {
+                        setInsuranceScreen_Mappings();
+                    }
+                    break;
+                case EEftScreenType.None:
+                    if (lootBeltSlot == null)
+                    {
+                        setComplexLootUI_Mappings();
+                    }
+                    break;
+                default:
+                    return; // Exit if the current screen is not Inventory or MatchmakerInsurance
             }
-            if (armBandSlot != null)
+
+            GameObject _slotPanel = target.transform.GetChild(1).gameObject; // Slot panel of the belt slot
+            if(_slotPanel.transform.childCount >5)
             {
-                GameObject _slotPanel = armBandSlot.transform.GetChild(1).gameObject; // Slot panel of the armband slot
-                if (armBandSlot.transform.childCount > 8)
-                {
-                    GameObject _backImage = armBandSlot.transform.GetChild(4).gameObject; // Back image of the armband slot
-                    GameObject _backGround = armBandSlot.transform.GetChild(5).gameObject; // Background of the armband slot
-                    GameObject _emptyBorder = armBandSlot.transform.GetChild(6).gameObject; // Empty border of the armband slot
-                    GameObject _fullBorder = armBandSlot.transform.GetChild(7).gameObject; // Full border of the armband slot
-                    GameObject _slotLayout = armBandSlot.transform.GetChild(8).gameObject; // Slot layout of the armband slot
+                GameObject _backImage = _slotPanel.transform.GetChild(0).gameObject; // Back image of the belt slot
+                GameObject _backGround = _slotPanel.transform.GetChild(1).gameObject; // Background of the belt slot
+                GameObject _emptyBorder = _slotPanel.transform.GetChild(2).gameObject; // Empty border of the belt slot
+                GameObject _fullBorder = _slotPanel.transform.GetChild(3).gameObject; // Full border of the belt slot
+                GameObject _slotLayout = _slotPanel.transform.GetChild(4).gameObject; // Slot layout of the belt slot
                     
-                    _backImage.SetActive(full); // Show the back image
-                    _backGround.SetActive(full); // Show the background
-                    _emptyBorder.SetActive(full); // Show the empty border
-                    _fullBorder.SetActive(!full); // Hide the full border
-                    _slotLayout.SetActive(!full); // Hide the slot layout
-                }
+                _backImage.SetActive(full); // Show the back image
+                _backGround.SetActive(full); // Show the background
+                _emptyBorder.SetActive(full); // Show the empty border
+                _fullBorder.SetActive(!full); // Hide the full border
+                _slotLayout.SetActive(!full); // Hide the slot layout
+            }    
+        }
+
+        public void toggleArmBandSlotFull(bool full, EEftScreenType currentScreen, GameObject target)
+        {
+            switch (currentScreen)
+            {
+                case EEftScreenType.Inventory:
+                    if (armBandSlot == null)
+                    {
+                        setInventoryContainer_Mappings();
+                    }
+                    break;
+                case EEftScreenType.Insurance:
+                    if (insuranceArmBand == null)
+                    {
+                        setInsuranceScreen_Mappings();
+                    }
+                    break;
+                case EEftScreenType.None:
+                    if (lootArmBand == null)
+                    {
+                        setComplexLootUI_Mappings();
+                    }
+                    break;
+                default:
+                    return; // Exit if the current screen is not Inventory or MatchmakerInsurance
+            }
+
+            GameObject _slotPanel = target.transform.GetChild(1).gameObject; // Slot panel of the armband slot
+            if (target.transform.childCount > 8)
+            {
+                GameObject _backImage = target.transform.GetChild(4).gameObject; // Back image of the armband slot
+                GameObject _backGround = target.transform.GetChild(5).gameObject; // Background of the armband slot
+                GameObject _emptyBorder = target.transform.GetChild(6).gameObject; // Empty border of the armband slot
+                GameObject _fullBorder = target.transform.GetChild(7).gameObject; // Full border of the armband slot
+                GameObject _slotLayout = target.transform.GetChild(8).gameObject; // Slot layout of the armband slot
+                    
+                _backImage.SetActive(full); // Show the back image
+                _backGround.SetActive(full); // Show the background
+                _emptyBorder.SetActive(full); // Show the empty border
+                _fullBorder.SetActive(!full); // Hide the full border
+                _slotLayout.SetActive(!full); // Hide the slot layout
             }
         }
     }

@@ -6,13 +6,12 @@ using BepInEx.Logging;
 using Comfort.Common;
 using EFT.InventoryLogic;
 using EFT.UI;
-using HarmonyLib;
+using EFT.UI.Screens;
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using static EFT.UI.InventoryScreen;
+using UnityEngine.SceneManagement;
 
 namespace BeltSlot
 {
@@ -21,16 +20,18 @@ namespace BeltSlot
     [BepInDependency("com.aaaWTT-PacknStrap.Core", BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin
     {
-        private bool enableLogging = true;
+        private bool enableLogging = false;
         public bool packNStrapInstalled;
         public bool iconToggle = true;
         public bool inventoryScreenLoaded = false;
+        public bool complexStashPanelLoaded = false;
         public string? itemId = "0000000000";
         public Item? itemToTest;
         internal static Plugin Instance { get; set; }
         internal ManualLogSource Log { get; set; }
         public InventoryEquipment inventoryEquipment;
         public InventoryScreen inventoryScreen;
+        public CurrentScreenSingletonClass currentScreenSingletonClass = null;
         private static UI_Mappings uiMappings;
         internal static UI_Mappings UiMappings { get => uiMappings; set => uiMappings = value; }
 
@@ -43,11 +44,40 @@ namespace BeltSlot
             {
                 if (enableLogging)
                 {
-                    Logger.LogInfo("Inventory screen is focused.");
+                    Log.LogInfo("Inventory screen is focused.");
                 }
                 return true;
             }
             return false;
+        }
+        // Check current screen type
+        public EEftScreenType getCurrentScreen()
+        {
+            if (currentScreenSingletonClass == null)
+            {
+                currentScreenSingletonClass = CurrentScreenSingletonClass.Instance;
+            }
+
+            MenuTaskBar menuTaskBar = MonoBehaviourSingleton<PreloaderUI>.Instance.MenuTaskBar;
+
+            if (menuTaskBar.isActiveAndEnabled)
+            {
+                EEftScreenType _eScreenType = currentScreenSingletonClass.CurrentScreenController.ScreenType;
+
+                if (enableLogging)
+                {
+                    Log.LogInfo($"Current screen type: {_eScreenType}");
+                }
+                return _eScreenType;
+            }
+            else
+            {
+                if (enableLogging)
+                {
+                    Log.LogInfo("MenuTaskBar is not active, returning None");
+                }
+                return EEftScreenType.None;
+            }
         }
         // Check if the health panel is active, if so, return true
         private bool checkInventoryTab()
@@ -67,14 +97,10 @@ namespace BeltSlot
             return false;
         }
         // Test the ArmBand slot, if it has an item, return true, otherwise return false
-        private bool TestArmBandHasItem()
+        private bool TestSlotHasItem()
         {
             if (inventoryEquipment != null)
             {
-                if (uiMappings?.armBandSlot == null)
-                {
-                    uiMappings?.setArmBand_Mappings();
-                }
                 Slot slot = inventoryEquipment.GetSlot(EquipmentSlot.ArmBand);
                 if (slot.Items.IsNullOrEmpty())
                 {
@@ -96,22 +122,16 @@ namespace BeltSlot
                     return true;
                 }
             }
+            Log.LogError("InventoryEquipment is null, cannot check ArmBand slot");
             return false;
         }
         // Test the ArmBand slot, if it has a compound item, return true, otherwise return false
-        private bool TestArmBandCompound()
+        public bool TestItemIsCompound()
         {
-                if (inventoryEquipment != null)
+            //InventoryEquipment _inventoryEquipment = Singleton<InventoryEquipment>.Instance;
+            if (inventoryEquipment != null)
                 {
-                    if (uiMappings?.armBandSlot == null)
-                    {
-                        uiMappings?.setArmBand_Mappings();
-                    }
                     Slot slot = inventoryEquipment.GetSlot(EquipmentSlot.ArmBand);
-                    //if (!TestArmBandHasItem())
-                    //{
-                    //    return false;
-                    //}
                     Item item = slot.ContainedItem;
                     if (!item.IsContainer)
                     {
@@ -138,8 +158,8 @@ namespace BeltSlot
         private bool TestItemChanged(String? item)
         {
             string? itemTest = item;
-            Slot? slot = inventoryEquipment?.GetSlot(EquipmentSlot.ArmBand);
-            if (!TestArmBandHasItem())
+            Slot slot = inventoryEquipment.GetSlot(EquipmentSlot.ArmBand);
+            if (!TestSlotHasItem())
             {
                 if (enableLogging)
                 {
@@ -149,17 +169,58 @@ namespace BeltSlot
                 itemId = "0000000000"; // Reset the item ID
                 return false;
             }
-            if (itemTest != slot?.ContainedItem.Id)
+            if (itemTest != slot.ContainedItem.Id)
                 {
                 if (enableLogging)
                 {
                     Log.LogInfo("Item in ArmBand slot has changed, updating itemToTest");
                 }
-                itemToTest = slot?.ContainedItem;
-                itemId = slot?.ContainedItem.Id;
+                itemToTest = slot.ContainedItem;
+                itemId = slot.ContainedItem.Id;
                 return true;
             }
             return false;
+        }
+        // Check if the current scene is a raid scene, if so, return true, otherwise return false
+        private bool testInRaidScene()
+        {
+            string _currentScene = getCurrentScene();
+            switch (_currentScene)
+            {
+                case "Factory_Rework_Day_Scripts":
+                case "Factory_Rework_Night_Scripts":
+                case "Sandbox_Scripts":
+                case "City_Scripts":
+                case "Shopping_Mall_Scripts":
+                case "custom_Scripts":
+                case "woods_Scripts":
+                case "Reserve_Base_Scripts":
+                case "Lighthouse_Scripts":
+                case "shoreline_scripts":
+                case "Laboratory_Scripts":
+                    return true;
+                default: return false;
+            }
+        }
+        // Check current scene
+        private string getCurrentScene()
+        {
+            string _currentScene = SceneManager.GetActiveScene().name;
+            if (_currentScene == null || _currentScene == string.Empty)
+            {
+                if (enableLogging)
+                {
+                    Log.LogInfo("Current scene is null or empty");
+                }
+                return "Unknown";
+            }
+
+            if (enableLogging)
+            {
+                Log.LogInfo($"Current scene: {_currentScene}");
+            }
+
+            return _currentScene;
         }
         #endregion
 
@@ -213,6 +274,10 @@ namespace BeltSlot
 
             SetEquipmentSlots();
             new ContainersPanelPatch().Enable();
+            new ContainersPanelPatch2().Enable();
+            new ComplexStashPanelPatch().Enable();
+            new ComplexStashPanelPatch2().Enable();
+            new MainMenuControllerClassPatch().Enable();
             new EquipmentBuildsScreenPatch().Enable();
             new InventoryEquipmentPatch().Enable();
             new InventoryScreenPatch().Enable();
@@ -247,85 +312,181 @@ namespace BeltSlot
                 return;
             }
 
-            OnEnterInventory();
+            UpdateArmBandSlot();
 
-            UpdateArmbandSlot();
+            UpdateRaidArmBandSlot();
 
-            if (Input.GetKeyDown(KeyCode.M))
+            if (Input.GetKeyDown(KeyCode.P))
             {
-                UiMappings.setContainer_Mappings();
-            }
-
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                UiMappings.setBeltSlot_Settings();
-            }
-
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                iconToggle = !iconToggle;
-                UiMappings.toggleArmBandSlotFull(!iconToggle);
-                UiMappings.toggleBeltSlotFull(iconToggle);
+                Log.LogInfo("Current Scene: " + getCurrentScene());
+                Log.LogInfo("Current Screen: " + getCurrentScreen());
             }
         }
 
         // Open the belt slot if the inventory is open and the armband slot has a compound item
         // also sets the uiMappings if they are null
-        private void OnEnterInventory()
+        public void OnEnterInventory()
         {
-            //EInventoryTab currentTab == EInventoryTab.Health;
             // do not trigger if inventory screen is not focused or input field is focused
-            if (isInventoryScreenFocus() && checkInventoryTab())
+            if(isInventoryScreenFocus() && checkInventoryTab())
+            {
+                //if(!testInRaidScene())
+                //{
+                    if (UiMappings != null)
+                    {
+                        if (UiMappings.beltSlot == null)
+                        {
+                            UiMappings.setInventoryContainer_Mappings();
+                        }
+                        if(TestSlotHasItem())
+                        {
+                            //Log.LogInfo("" + getCurrentScreen());
+                            RefreshBeltSlot(uiMappings.armBandSlot, EEftScreenType.Inventory, uiMappings.beltSlot);
+                        }
+                        if (enableLogging)
+                        {
+                            Log.LogInfo("belt slot in the right place");
+                        }
+                        return;
+                    }
+                //}
+            }
+            if(getCurrentScreen() == EEftScreenType.Insurance)
             {
                 if (UiMappings != null)
                 {
-                    if (UiMappings.beltSlot == null)
+                    if (UiMappings.insuranceBelt == null)
                     {
-                        UiMappings.setContainer_Mappings();
-                        UiMappings.setBeltSlot_Settings();
+                        uiMappings.setInsuranceScreen_Mappings();
                     }
-                    if(TestArmBandHasItem())
+                    if (TestSlotHasItem())
                     {
-                        RefreshBeltSlot();
+                        RefreshBeltSlot(uiMappings.insuranceArmBand, EEftScreenType.Insurance, uiMappings.insuranceBelt);
                     }
                     if (enableLogging)
                     {
-                        Logger?.LogInfo("belt slot in the right place");
+                        Log.LogInfo("belt slot in the right place");
                     }
                     return;
                 }
             }
         }
 
-        // Updates the armband slot and opens the belt slot if the item in the armband slot has changed
-        private void UpdateArmbandSlot()
+        private void UpdateArmBandSlot()
         {
-            if(isInventoryScreenFocus() && checkInventoryTab())
+            if (isInventoryScreenFocus() && checkInventoryTab())
             {
                 if (UiMappings.beltSlot == null)
                 {
-                    UiMappings.setContainer_Mappings();
-                    UiMappings.setBeltSlot_Settings();
-                };
+                    UiMappings.setInventoryContainer_Mappings();
+                    RefreshBeltSlot(uiMappings.armBandSlot, EEftScreenType.Inventory, uiMappings.beltSlot);
+                }
                 if (TestItemChanged(itemId))
                 {
-                    RefreshBeltSlot();
+                    RefreshBeltSlot(uiMappings.armBandSlot, EEftScreenType.Inventory, uiMappings.beltSlot);
+                }
+                return;
+            }
+        }
+
+        // Needs a check for actually looting a dead bot
+        private void UpdateRaidArmBandSlot()
+        {
+            if(!testInRaidScene())
+            {
+                return;
+            }
+            if (!complexStashPanelLoaded)
+            {
+                return;
+            }
+            if (isInventoryScreenFocus() && checkInventoryTab())
+            {
+                if (UiMappings.lootBeltSlot == null)
+                {
+                    UiMappings.setComplexLootUI_Mappings();
+                    RefreshBeltSlot(uiMappings.lootArmBand, EEftScreenType.None, uiMappings.lootBeltSlot);
+                }
+                if (TestItemChanged(itemId))
+                {
+                    RefreshBeltSlot(uiMappings.lootArmBand, EEftScreenType.None, uiMappings.lootBeltSlot);
+                }
+                return;
+            }
+        }
+
+        // Updates the armband slot and opens the belt slot if the item in the armband slot has changed
+        public void SetArmbandSlotOnOpen()
+        {
+            if(isInventoryScreenFocus() && checkInventoryTab())
+            {
+                if(TestSlotHasItem())
+                {
+                    if (UiMappings.beltSlot == null)
+                    {
+                        UiMappings.setInventoryContainer_Mappings();
+                        RefreshBeltSlot(uiMappings.armBandSlot, EEftScreenType.Inventory, uiMappings.beltSlot);
+                    }
+                    if (TestItemChanged(itemId))
+                    {
+                        RefreshBeltSlot(uiMappings.armBandSlot, EEftScreenType.Inventory, uiMappings.beltSlot);
+                    }
+                }
+                else
+                {
+                    UiMappings.setInventoryContainer_Mappings();
                 }
             }
         }
 
-        // Refreshes the belt slot if the item in the armband slot has not changed but the belt slot is not open
-        private void RefreshBeltSlot()
+        public void SetRaidArmbandSlotOnOpen()
         {
-            if (TestArmBandCompound())
+            if (isInventoryScreenFocus() && checkInventoryTab())
             {
-                 UiMappings.toggleArmBandSlotFull(iconToggle);
-                 UiMappings.toggleBeltSlotFull(!iconToggle);
+                if (TestSlotHasItem())
+                {
+                    if (UiMappings.lootArmBand == null)
+                    {
+                        UiMappings.setComplexLootUI_Mappings();
+                        RefreshBeltSlot(uiMappings.lootArmBand, EEftScreenType.None, uiMappings.lootBeltSlot);
+                    }
+                    if (TestItemChanged(itemId))
+                    {
+                        RefreshBeltSlot(uiMappings.lootArmBand, EEftScreenType.None, uiMappings.lootBeltSlot);
+                    }
+                }
+                else
+                {
+                    UiMappings.setComplexLootUI_Mappings();
+                }
+            }
+        }
+
+        public void SetInsuranceArmbandSlot()
+        {
+                if (UiMappings.insuranceBelt == null)
+                {
+                    UiMappings.setInsuranceScreen_Mappings();
+                    RefreshBeltSlot(uiMappings.insuranceArmBand, EEftScreenType.Insurance, uiMappings.insuranceBelt);
+                }
+                if (TestItemChanged(itemId))
+                {
+                    RefreshBeltSlot(uiMappings.insuranceArmBand, EEftScreenType.Insurance, uiMappings.insuranceBelt);
+                }
+        }
+
+        // Refreshes the belt slot if the item in the armband slot has not changed but the belt slot is not open
+        private void RefreshBeltSlot(GameObject targetArm, EEftScreenType screenType, GameObject targetBelt)
+        {
+            if (TestItemIsCompound())
+            {
+                 UiMappings.toggleArmBandSlotFull(iconToggle, screenType, targetArm);
+                 UiMappings.toggleBeltSlotFull(!iconToggle, screenType, targetBelt);
             }
             else
             {
-                 UiMappings.toggleArmBandSlotFull(!iconToggle);
-                 UiMappings.toggleBeltSlotFull(iconToggle);
+                 UiMappings.toggleArmBandSlotFull(!iconToggle, screenType, targetArm);
+                 UiMappings.toggleBeltSlotFull(iconToggle, screenType, targetBelt);
             }
             return;
         }
