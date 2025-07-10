@@ -76,7 +76,7 @@ namespace BeltSlot.Patches
         [PatchPostfix]
         static void Postfix()
         {
-            Plugin.Instance.Log.LogInfo($"[Belt Slots] MatchmakerInsuranceScreenPatch.Postfix called");
+            Plugin.Instance.Log.LogInfo($"[Belt Slots] MainMenuControllerClassPatch.Postfix called");
             Plugin.Instance.SetInsuranceArmbandSlot();
         }
     }
@@ -87,12 +87,13 @@ namespace BeltSlot.Patches
         {
             return AccessTools.Method(typeof(ComplexStashPanel), nameof(ComplexStashPanel.Show));
         }
+
         [PatchPostfix]
         static void Postfix(ComplexStashPanel __instance)
         {
-            Plugin.Instance.Log.LogInfo($"[Belt Slots] ComplexStashPanelPatch.Postfix called");
-            Plugin.Instance.SetRaidArmbandSlotOnOpen();
+            //Plugin.Instance.Log.LogInfo($"[Belt Slots] ComplexStashPanelPatch.Postfix called");
             Plugin.Instance.complexStashPanelLoaded = true;
+            Plugin.Instance.SetRaidArmbandSlotOnOpen();
         }
     }
 
@@ -105,7 +106,8 @@ namespace BeltSlot.Patches
         [PatchPostfix]
         static void Postfix(ComplexStashPanel __instance)
         {
-            Plugin.Instance.Log.LogInfo($"[Belt Slots] ComplexStashPanelPatch2.Postfix called");
+            //Plugin.Instance.Log.LogInfo($"[Belt Slots] ComplexStashPanelPatch2.Postfix called");
+            // Breaks the closing of scav inventories for some reason
             Plugin.Instance.complexStashPanelLoaded = false;
         }
     }

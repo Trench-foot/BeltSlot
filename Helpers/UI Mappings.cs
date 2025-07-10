@@ -102,18 +102,28 @@ namespace BeltSlot.Helpers
                 inventoryScreen = Singleton<CommonUI>.Instance.InventoryScreen;
             }
             lootContainerGameObject = inventoryScreen.transform.Find("Items Panel/Stash Panel/Complex Loot Panel/Containers Scrollview/Content").gameObject;
+            if(countTransformChildren(lootContainerGameObject) < 5)
+            {
+                Plugin.Instance.complexStashPanelLoaded = false;
+                return;
+            }
             lootEquipmentGameObject = lootContainerGameObject.transform.Find("Gear Panel Template(Clone)").gameObject;
             lootArmBand = lootEquipmentGameObject.transform.Find("ArmBand Slot").gameObject;
-            if (lootArmBand.activeSelf)
-            {
-                lootBeltSlot = lootContainerGameObject.transform.Find("ArmBand Slot").gameObject;
-                setBeltSlot_Settings(lootBeltSlot);
-            }
+            lootBeltSlot = lootContainerGameObject.transform.Find("ArmBand Slot").gameObject;
+            setBeltSlot_Settings(lootBeltSlot);
         }
-
 
         #endregion
 
+        public int countTransformChildren(GameObject target)
+        {
+            if (target == null)
+            {
+                Plugin.Instance.Log.LogError("[Belt Slots] Target GameObject is null.");
+                return 0;
+            }
+            return target.transform.childCount;
+        }
         // Set the settings of the belt slot, such as its position, name, and visibility
         public void setBeltSlot_Settings(GameObject targetBelt)
         {

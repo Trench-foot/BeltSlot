@@ -4,6 +4,7 @@ using HarmonyLib;
 using SPT.Reflection.Patching;
 using System.Reflection;
 using EFT.InventoryLogic;
+using BeltSlot.Helpers;
 
 namespace BeltSlot.Patches
 {
@@ -48,6 +49,19 @@ namespace BeltSlot.Patches
             {
                 Plugin.Instance.Log.LogInfo($"[Belt Slots] Exception: {ex}");
             }
+        }
+    }
+
+    public class EquipmentBuildsScreenPatch2 : ModulePatch
+    {
+        protected override MethodBase GetTargetMethod()
+        {
+            return AccessTools.Method(typeof(EquipmentBuildsScreen), nameof(EquipmentBuildsScreen.method_6));
+        }
+        [PatchPostfix]
+        static void Postfix(EquipmentBuildsScreen __instance)
+        {
+            Plugin.Instance.SetBuildsArmbandSlot();
         }
     }
 }
