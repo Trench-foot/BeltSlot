@@ -104,7 +104,7 @@ namespace BeltSlot.Patches
                 Plugin.Instance.Log.LogInfo($"[Belt Slots] ComplexStashPanelPatch.Postfix called");
             }
             Plugin.Instance.complexStashPanelLoaded = true;
-            Plugin.Instance.SetTargetArmbandSlotOnOpen();
+            Plugin.Instance.SetLootArmbandSlotOnOpen();
         }
     }
 
@@ -138,7 +138,7 @@ namespace BeltSlot.Patches
             {
                 Plugin.Instance.Log.LogInfo($"[Belt Slots] ItemViewPatch.Postfix called");
             }
-            Plugin.Instance.UpdateTargetArmBandSlot();
+            Plugin.Instance.UpdateLootArmBandSlot();
             Plugin.Instance.UpdatePlayerArmBandSlot();
             return true;
         }

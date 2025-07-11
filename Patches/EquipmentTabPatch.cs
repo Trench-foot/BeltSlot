@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using EFT.UI;
+﻿using EFT.UI;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using System.Reflection;
-using EFT;
-using EFT.InventoryLogic;
-using EFT.UI.DragAndDrop;
 
 namespace BeltSlot.Patches
 {

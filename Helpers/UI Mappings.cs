@@ -3,7 +3,6 @@ using EFT.InventoryLogic;
 using EFT.UI;
 using EFT.UI.DragAndDrop;
 using EFT.UI.Matchmaker;
-using EFT.UI.Screens;
 using TMPro;
 using UnityEngine;
 
@@ -41,11 +40,10 @@ namespace BeltSlot.Helpers
         public MatchmakerInsuranceScreen insuranceScreen = null;
         public PreloaderUI preloaderUI = null;
         public bool noActiveWindow = false;
-
         #endregion
 
         #region Game Object Mappings
-        // Mappings of the health panel in the inventory screen
+        // Mappings of the health panel in the inventory screen, currently not used
         public void setHealthPanel_Mappings()
         {
             if (inventoryScreen == null)
@@ -56,7 +54,8 @@ namespace BeltSlot.Helpers
             healthParameter = inventoryScreen.transform.Find("Items Panel/LeftSide/Left Panel/Health Parameters").gameObject;
         }
 
-        public Slot setBuildPanel_Mappings()
+        // Mappings of the build panel in the equipment builds screen
+        public Slot getBuildPanel_Mappings()
         {
             if (equipmentBuildsScreen == null)
             {
@@ -71,7 +70,8 @@ namespace BeltSlot.Helpers
             return slotView.Slot;
         }
 
-        public Slot setDeployPanel_Mappings()
+        // Mappings of the equipment panel in the deploy screen
+        public Slot getDeployPanel_Mappings()
         {
             if (preloaderUI == null)
             {
@@ -87,7 +87,7 @@ namespace BeltSlot.Helpers
         }
 
         // Mappings of the insurance screen in the matchmaker
-        public Slot setInsuranceScreen_Mappings()
+        public Slot getInsuranceScreen_Mappings()
         {
             if(insuranceScreen == null)
             {
@@ -104,7 +104,7 @@ namespace BeltSlot.Helpers
         }
 
         // Mappings of the inventory screen
-        public Slot setInventoryContainer_Mappings()
+        public Slot getInventoryContainer_Mappings()
         {
             if (inventoryScreen == null)
             {
@@ -125,8 +125,8 @@ namespace BeltSlot.Helpers
             return slotView.Slot;
         }
 
-        // Mappings of complex loot container view in the inventory screen, currently not used
-        public Slot setComplexLootUI_Mappings()
+        // Mappings of complex loot container view in the inventory screen
+        public Slot getComplexLootUI_Mappings()
         {
             if (inventoryScreen == null)
             {
@@ -148,6 +148,7 @@ namespace BeltSlot.Helpers
         }
         #endregion
 
+        // Count the number of child transforms in a GameObject
         public int countTransformChildren(GameObject target)
         {
             if (target == null)
@@ -161,6 +162,7 @@ namespace BeltSlot.Helpers
             return target.transform.childCount;
         }
 
+        #region Inventory Settings Methods
         // Set the settings of the belt slot, such as its position, name, and visibility
         public void setBeltSlot_Settings(GameObject targetBelt)
         {
@@ -184,44 +186,8 @@ namespace BeltSlot.Helpers
             }
         }
 
-        public void toggleBeltSlotFull(bool full, EEftScreenType currentScreen, GameObject target)
+        public void toggleBeltSlotFull(bool full, GameObject target)
         {
-            switch (currentScreen)
-            {
-                case EEftScreenType.Inventory:
-                    if (beltSlot == null)
-                    {
-                        setInventoryContainer_Mappings();
-                    }
-                    break;
-                case EEftScreenType.EquipmentBuilds:
-                    if (buildBeltSlot == null)
-                    {
-                        setBuildPanel_Mappings();
-                    }
-                    break;
-                case EEftScreenType.Insurance:
-                    if (insuranceBelt == null)
-                    {
-                        setInsuranceScreen_Mappings();
-                    }
-                    break;
-                case EEftScreenType.TimeHasCome:
-                    if (deployBeltSlot == null)
-                    {
-                        setDeployPanel_Mappings();
-                    }
-                    break;
-                case EEftScreenType.None:
-                    if (lootBeltSlot == null)
-                    {
-                        setComplexLootUI_Mappings();
-                    }
-                    break;
-                default:
-                    return; // Exit if the current screen is not Inventory or MatchmakerInsurance
-            }
-
             GameObject _slotPanel = target.transform.GetChild(1).gameObject; // Slot panel of the belt slot
             if(_slotPanel.transform.childCount >5)
             {
@@ -239,44 +205,8 @@ namespace BeltSlot.Helpers
             }    
         }
 
-        public void toggleArmBandSlotFull(bool full, EEftScreenType currentScreen, GameObject target)
+        public void toggleArmBandSlotFull(bool full, GameObject target)
         {
-            switch (currentScreen)
-            {
-                case EEftScreenType.Inventory:
-                    if (beltSlot == null)
-                    {
-                        setInventoryContainer_Mappings();
-                    }
-                    break;
-                case EEftScreenType.EquipmentBuilds:
-                    if (buildBeltSlot == null)
-                    {
-                        setBuildPanel_Mappings();
-                    }
-                    break;
-                case EEftScreenType.Insurance:
-                    if (insuranceBelt == null)
-                    {
-                        setInsuranceScreen_Mappings();
-                    }
-                    break;
-                case EEftScreenType.TimeHasCome:
-                    if (deployBeltSlot == null)
-                    {
-                        setDeployPanel_Mappings();
-                    }
-                    break;
-                case EEftScreenType.None:
-                    if (lootBeltSlot == null)
-                    {
-                        setComplexLootUI_Mappings();
-                    }
-                    break;
-                default:
-                    return; // Exit if the current screen is not Inventory or MatchmakerInsurance
-            }
-
             GameObject _slotPanel = target.transform.GetChild(1).gameObject; // Slot panel of the armband slot
             if (target.transform.childCount > 8)
             {
@@ -293,5 +223,6 @@ namespace BeltSlot.Helpers
                 _slotLayout.SetActive(!full); // Hide the slot layout
             }
         }
+        #endregion
     }
 }

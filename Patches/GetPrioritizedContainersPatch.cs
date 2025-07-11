@@ -97,9 +97,16 @@ namespace BeltSlot.Patches
             IL_00DF:
             IEnumerable<EFT.InventoryLogic.IContainer> enumerable12 = enumerable11;
             // Belt slot containers come after the vest in looting priority
-            if (item is AmmoItemClass || item is MagazineItemClass)
+            if (item is MagazineItemClass)
             {
+                // enumerable2 is chestrig, enumerable4 is backpack, enumerable6 is pockets,
+                // enumerable8 is secured container, and enumerable12 is tactical belt
                 __result = enumerable2.Concat(enumerable12).Concat(enumerable6).Concat(enumerable4).Concat(enumerable8);
+                return false;
+            }
+            if (item is AmmoItemClass)
+            {
+                __result = enumerable12.Concat(enumerable2).Concat(enumerable6).Concat(enumerable4).Concat(enumerable8);
                 return false;
             }
             if (item is MoneyItemClass)
@@ -109,7 +116,7 @@ namespace BeltSlot.Patches
             }
             if (item is ThrowWeapItemClass)
             {
-                __result = enumerable6.Concat(enumerable2).Concat(enumerable12).Concat(enumerable4).Concat(enumerable8);
+                __result = enumerable6.Concat(enumerable12).Concat(enumerable2).Concat(enumerable4).Concat(enumerable8);
                 return false;
             }
             __result = enumerable4.Concat(enumerable2).Concat(enumerable12).Concat(enumerable6).Concat(enumerable8);

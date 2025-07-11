@@ -1,11 +1,7 @@
-﻿using EFT.InventoryLogic;
-using EFT.UI;
-using EFT.UI.DragAndDrop;
+﻿using EFT.UI;
 using HarmonyLib;
 using SPT.Reflection.Patching;
-using System.Numerics;
 using System.Reflection;
-using UnityEngine.EventSystems;
 
 namespace BeltSlot.Patches
 {
