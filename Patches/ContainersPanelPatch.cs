@@ -1,16 +1,10 @@
-﻿using BeltSlot.Helpers;
-using EFT;
-using EFT.InventoryLogic;
+﻿using EFT.InventoryLogic;
 using EFT.UI;
 using EFT.UI.DragAndDrop;
-using EFT.UI.Matchmaker;
-using EFT.UI.Screens;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using System;
 using System.Reflection;
-using TMPro;
-using UnityEngine;
 
 namespace BeltSlot.Patches
 {
@@ -29,7 +23,10 @@ namespace BeltSlot.Patches
         {
             try
             {
-                Plugin.Instance.Log.LogInfo($"[Belt Slots] ContainersPanelPatch.PreFix called");
+                if (Plugin.Instance.enableLogging)
+                {
+                    Plugin.Instance.Log.LogInfo($"[Belt Slots] ContainersPanelPatch.PreFix called");
+                }
 
                 if (slotName == EquipmentSlot.ArmBand)
                 {
@@ -38,7 +35,10 @@ namespace BeltSlot.Patches
                     {
                         __result = UnityEngine.Object.Instantiate<SlotView>(template);
 
-                        Plugin.Instance.Log.LogInfo($"[Belt Slots] default template for armband");
+                        if (Plugin.Instance.enableLogging)
+                        {
+                            Plugin.Instance.Log.LogInfo($"[Belt Slots] default template for armband");
+                        }
                         return false;
                     }
                 }
@@ -61,7 +61,11 @@ namespace BeltSlot.Patches
         [PatchPostfix]
         static void Postfix()
         {
-            Plugin.Instance.Log.LogInfo($"[Belt Slots] ContainersPanelPatch2.Postfix called");
+            if (Plugin.Instance.enableLogging)
+            {
+                Plugin.Instance.Log.LogInfo($"[Belt Slots] ContainersPanelPatch2.Postfix called");
+            }
+            //Plugin.Instance.armbandSlot = Plugin.Instance.inventoryEquipment.GetSlot(EquipmentSlot.ArmBand);
 
             Plugin.Instance.SetArmbandSlotOnOpen();
         }
@@ -76,7 +80,10 @@ namespace BeltSlot.Patches
         [PatchPostfix]
         static void Postfix()
         {
-            Plugin.Instance.Log.LogInfo($"[Belt Slots] MainMenuControllerClassPatch.Postfix called");
+            if (Plugin.Instance.enableLogging)
+            {
+                Plugin.Instance.Log.LogInfo($"[Belt Slots] MainMenuControllerClassPatch.Postfix called");
+            }
             Plugin.Instance.SetInsuranceArmbandSlot();
         }
     }
@@ -91,7 +98,10 @@ namespace BeltSlot.Patches
         [PatchPostfix]
         static void Postfix(ComplexStashPanel __instance)
         {
-            //Plugin.Instance.Log.LogInfo($"[Belt Slots] ComplexStashPanelPatch.Postfix called");
+            if (Plugin.Instance.enableLogging)
+            {
+                Plugin.Instance.Log.LogInfo($"[Belt Slots] ComplexStashPanelPatch.Postfix called");
+            }
             Plugin.Instance.complexStashPanelLoaded = true;
             Plugin.Instance.SetRaidArmbandSlotOnOpen();
         }
@@ -106,9 +116,30 @@ namespace BeltSlot.Patches
         [PatchPostfix]
         static void Postfix(ComplexStashPanel __instance)
         {
-            //Plugin.Instance.Log.LogInfo($"[Belt Slots] ComplexStashPanelPatch2.Postfix called");
-            // Breaks the closing of scav inventories for some reason
+            if (Plugin.Instance.enableLogging)
+            {
+                Plugin.Instance.Log.LogInfo($"[Belt Slots] ComplexStashPanelPatch2.Postfix called");
+            }
             Plugin.Instance.complexStashPanelLoaded = false;
+        }
+    }
+
+    public class ItemViewPatch : ModulePatch
+    {
+        protected override MethodBase GetTargetMethod()
+        {
+            return AccessTools.Method(typeof(ItemView), nameof(ItemView.Update));
+        }
+        [PatchPrefix]
+        static bool Prefix(ItemView __instance)
+        {
+            if (Plugin.Instance.enableLogging)
+            {
+                Plugin.Instance.Log.LogInfo($"[Belt Slots] ItemViewPatch.Postfix called");
+            }
+            Plugin.Instance.UpdateRaidArmBandSlot();
+            Plugin.Instance.UpdateArmBandSlot();
+            return true;
         }
     }
 }

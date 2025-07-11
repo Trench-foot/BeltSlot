@@ -1,6 +1,4 @@
 ﻿using BepInEx.Configuration;
-using UnityEngine;
-using static GClass1943;
 
 namespace BeltSlot.Helpers
 {
