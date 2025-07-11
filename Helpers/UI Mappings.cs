@@ -29,8 +29,10 @@ namespace BeltSlot.Helpers
         public GameObject insuranceBelt = null;
         public GameObject insuranceArmBand = null;
         public GameObject buildPanel = null;
-        public GameObject deployBeltSlot = null;
+        public GameObject buildBeltSlot = null;
+        public GameObject buildArmbandSlot = null;
         public GameObject deployPanel = null;
+        public GameObject deployBeltSlot = null;
         public GameObject deployArmbandSlot = null;
         public GameObject healthPanelContainer = null;
         public ToggleButton toggleButton = null;
@@ -54,15 +56,19 @@ namespace BeltSlot.Helpers
             healthParameter = inventoryScreen.transform.Find("Items Panel/LeftSide/Left Panel/Health Parameters").gameObject;
         }
 
-        public void setBuildPanel_Mappings()
+        public Slot setBuildPanel_Mappings()
         {
             if (equipmentBuildsScreen == null)
             {
                 equipmentBuildsScreen = Singleton<MenuUI>.Instance.EquipmentBuildsScreen;
             }
-            buildPanel = equipmentBuildsScreen.transform.Find("Panels/Gear Panel/ViewPanel/Containers Panel/Containers Scrollview").gameObject;
-            deployBeltSlot = buildPanel.transform.Find("Content/ArmBand Slot").gameObject;
-            setBeltSlot_Settings(deployBeltSlot);
+            buildPanel = equipmentBuildsScreen.transform.Find("Panels/Gear Panel/ViewPanel").gameObject;
+            buildArmbandSlot = buildPanel.transform.Find("EquipmentScrollview/Gear Panel Build/ArmBand Slot").gameObject;
+            buildBeltSlot = buildPanel.transform.Find("Containers Panel/Containers Scrollview/Content/ArmBand Slot").gameObject;
+            SlotView slotView = buildBeltSlot.GetComponent<SlotView>();
+
+            setBeltSlot_Settings(buildBeltSlot);
+            return slotView.Slot;
         }
 
         public Slot setDeployPanel_Mappings()
@@ -105,6 +111,11 @@ namespace BeltSlot.Helpers
                 inventoryScreen = Singleton<CommonUI>.Instance.InventoryScreen;
             }
             containerGameObject = inventoryScreen.transform.Find("Items Panel/LeftSide/Containers Panel/Scrollview Parent/Containers Scrollview/Content").gameObject;
+            if(countTransformChildren(containerGameObject) < 8)
+            {
+                Plugin.Instance.isSavage = true;
+                return null;
+            }
             equipmentGameObject = inventoryScreen.transform.Find("Items Panel/LeftSide/Left Panel/Gear Panel").gameObject;
             armBandSlot = equipmentGameObject.transform.Find("ArmBand Slot").gameObject;
             beltSlot = containerGameObject.transform.Find("ArmBand Slot").gameObject;
@@ -183,22 +194,28 @@ namespace BeltSlot.Helpers
                         setInventoryContainer_Mappings();
                     }
                     break;
+                case EEftScreenType.EquipmentBuilds:
+                    if (buildBeltSlot == null)
+                    {
+                        setBuildPanel_Mappings();
+                    }
+                    break;
                 case EEftScreenType.Insurance:
                     if (insuranceBelt == null)
                     {
                         setInsuranceScreen_Mappings();
                     }
                     break;
-                case EEftScreenType.None:
-                    if (lootBeltSlot == null)
-                    {
-                        setComplexLootUI_Mappings();
-                    }
-                    break;
                 case EEftScreenType.TimeHasCome:
                     if (deployBeltSlot == null)
                     {
                         setDeployPanel_Mappings();
+                    }
+                    break;
+                case EEftScreenType.None:
+                    if (lootBeltSlot == null)
+                    {
+                        setComplexLootUI_Mappings();
                     }
                     break;
                 default:
@@ -227,27 +244,33 @@ namespace BeltSlot.Helpers
             switch (currentScreen)
             {
                 case EEftScreenType.Inventory:
-                    if (armBandSlot == null)
+                    if (beltSlot == null)
                     {
                         setInventoryContainer_Mappings();
                     }
                     break;
-                case EEftScreenType.Insurance:
-                    if (insuranceArmBand == null)
+                case EEftScreenType.EquipmentBuilds:
+                    if (buildBeltSlot == null)
                     {
-                        setInsuranceScreen_Mappings();
+                        setBuildPanel_Mappings();
                     }
                     break;
-                case EEftScreenType.None:
-                    if (lootArmBand == null)
+                case EEftScreenType.Insurance:
+                    if (insuranceBelt == null)
                     {
-                        setComplexLootUI_Mappings();
+                        setInsuranceScreen_Mappings();
                     }
                     break;
                 case EEftScreenType.TimeHasCome:
                     if (deployBeltSlot == null)
                     {
                         setDeployPanel_Mappings();
+                    }
+                    break;
+                case EEftScreenType.None:
+                    if (lootBeltSlot == null)
+                    {
+                        setComplexLootUI_Mappings();
                     }
                     break;
                 default:

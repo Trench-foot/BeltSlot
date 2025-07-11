@@ -20,6 +20,7 @@ namespace BeltSlot.Patches
             {
                 Plugin.Instance.Log.LogInfo($"[Belt Slots] PlayerEquipmentWindowPatch.Postfix called");
             }
+            Plugin.Instance.isSavage = false;
             Plugin.Instance.SetDeployArmbandSlot();
         }
     }

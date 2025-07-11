@@ -67,7 +67,8 @@ namespace BeltSlot.Patches
             }
             //Plugin.Instance.armbandSlot = Plugin.Instance.inventoryEquipment.GetSlot(EquipmentSlot.ArmBand);
 
-            Plugin.Instance.SetArmbandSlotOnOpen();
+            Plugin.Instance.isSavage = false;
+            Plugin.Instance.SetPlayerArmbandSlotOnOpen();
         }
     }
 
@@ -103,7 +104,7 @@ namespace BeltSlot.Patches
                 Plugin.Instance.Log.LogInfo($"[Belt Slots] ComplexStashPanelPatch.Postfix called");
             }
             Plugin.Instance.complexStashPanelLoaded = true;
-            Plugin.Instance.SetRaidArmbandSlotOnOpen();
+            Plugin.Instance.SetTargetArmbandSlotOnOpen();
         }
     }
 
@@ -137,8 +138,8 @@ namespace BeltSlot.Patches
             {
                 Plugin.Instance.Log.LogInfo($"[Belt Slots] ItemViewPatch.Postfix called");
             }
-            Plugin.Instance.UpdateRaidArmBandSlot();
-            Plugin.Instance.UpdateArmBandSlot();
+            Plugin.Instance.UpdateTargetArmBandSlot();
+            Plugin.Instance.UpdatePlayerArmBandSlot();
             return true;
         }
     }
