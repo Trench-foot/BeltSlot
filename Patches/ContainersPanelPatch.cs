@@ -1,9 +1,13 @@
-﻿using EFT.InventoryLogic;
+﻿using Comfort.Common;
+using EFT.InventoryLogic;
 using EFT.UI;
 using EFT.UI.DragAndDrop;
+using EFT.UI.Screens;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace BeltSlot.Patches
@@ -131,8 +135,8 @@ namespace BeltSlot.Patches
         {
             return AccessTools.Method(typeof(ItemView), nameof(ItemView.Update));
         }
-        [PatchPrefix]
-        static bool Prefix(ItemView __instance)
+        [PatchPostfix]
+        static void Postfix(ItemView __instance)
         {
             if (Plugin.Instance.enableLogging)
             {
@@ -140,7 +144,7 @@ namespace BeltSlot.Patches
             }
             Plugin.Instance.UpdateLootArmBandSlot();
             Plugin.Instance.UpdatePlayerArmBandSlot();
-            return true;
+            Plugin.Instance.UpdateScavInventoryArmbandSlot();
         }
     }
 }

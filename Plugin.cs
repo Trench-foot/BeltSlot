@@ -4,10 +4,8 @@ using BepInEx;
 using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using Comfort.Common;
-using EFT;
 using EFT.InventoryLogic;
 using EFT.UI;
-using EFT.UI.DragAndDrop;
 using EFT.UI.Screens;
 using System;
 using System.Linq;
@@ -17,7 +15,7 @@ using UnityEngine.SceneManagement;
 
 namespace BeltSlot
 {
-    [BepInPlugin("BeltSlot", "BeltSlot", "0.9.9")]
+    [BepInPlugin("BeltSlot", "BeltSlot", "1.0.0")]
     [BepInDependency("com.SPT.core", "3.11.0")]
     [BepInDependency("com.aaaWTT-PacknStrap.Core", BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin
@@ -38,6 +36,7 @@ namespace BeltSlot
         public Slot lootArmbandSlot;
         public InventoryEquipment inventoryEquipment;
         public InventoryScreen inventoryScreen;
+        public CommonUI commonUI;
         public CurrentScreenSingletonClass currentScreenSingletonClass = null;
         internal static Plugin Instance { get; set; }
         internal ManualLogSource Log { get; set; }
@@ -57,6 +56,24 @@ namespace BeltSlot
                     Log.LogInfo("Inventory screen is focused.");
                 }
                 return true;
+            }
+            return false;
+        }
+        // Checks if the scav loot transfer screen is open
+        private bool isScavengerInventoryScreenFocus()
+        {
+            var scavInventoryScreen = Singleton<CommonUI>.Instance.ScavengerInventoryScreen;
+            if (scavInventoryScreen.isActiveAndEnabled)
+            {
+                if ((getCurrentScene() == "EmptyScene"))
+                {
+                    if ((getCurrentScreen() == EEftScreenType.ScavInventory))
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+                return false;
             }
             return false;
         }
@@ -218,7 +235,7 @@ namespace BeltSlot
             return _currentScene;
         }
         // Check current screen type, kept for testing purposes
-        public EEftScreenType getCurrentScreen()
+        private EEftScreenType getCurrentScreen()
         {
             if (currentScreenSingletonClass == null)
             {
@@ -226,6 +243,15 @@ namespace BeltSlot
             }
 
             EEftScreenType _eScreenType = currentScreenSingletonClass.CurrentScreenController.ScreenType;
+
+            if (_eScreenType == null)
+            {
+                if (enableLogging)
+                {
+                    Log.LogInfo("Current screen is null, return none");
+                }
+                return EEftScreenType.None;
+            }
 
             if (enableLogging)
             {
@@ -311,9 +337,21 @@ namespace BeltSlot
 
         private void Update()
         {
+            //if(!testGameReady())
+            //{
+            //    return;
 
+            //}
+            //    if(Input.GetKeyDown(KeyCode.P))
+            //    {
+            //        Log.LogInfo($"[Belt Slots] Current screen: " + getCurrentScreen());
+            //        Log.LogInfo($"[Belt Slots] Current scene: " + getCurrentScene());
+
+            //        //SetScavInventoryArmbandSlot();
+            //        Log.LogInfo($"Scavswitharmbands is installed");
+            //    }
         }
-
+        
         #region Update Methods
         // Updates the armband and belt slots dynamically when inventory is open and not in raid
         public void UpdatePlayerArmBandSlot()
@@ -369,6 +407,42 @@ namespace BeltSlot
                     if (TestItemChanged(raidItemId, _slot))
                     {
                         RefreshBeltSlot(_slot, uiMappings.lootArmBand, uiMappings.lootBeltSlot);
+                    }
+                    return;
+                }
+                return;
+            }
+            return;
+        }
+
+        // Updates the scav loot transfer screen
+        public void UpdateScavInventoryArmbandSlot()
+        {
+            // Dynamically checks if the player has a scav that can have an armband and belt slot,
+            // and updates the loot transfer screen accordingly
+            if (isSavage)
+            {
+                return;
+            }
+            if (!testGameReady())
+            {
+                return;
+            }
+            if (isScavengerInventoryScreenFocus())
+            {
+                Slot _slot = UiMappings.getScavLootTransferUI_Mappings();
+                if (_slot == null)
+                {
+                    isSavage = true;
+                    return;
+                }
+                if (TestSlotHasItem(_slot))
+                {
+                    RefreshBeltSlot(_slot, uiMappings.scavArmBandSlot, uiMappings.scavBeltSlot);
+                    if (TestItemChanged(itemId, _slot))
+                    {
+                        Log.LogInfo("Item in ArmBand slot has changed, updating belt slot");
+                        RefreshBeltSlot(_slot, uiMappings.scavArmBandSlot, uiMappings.scavBeltSlot);
                     }
                     return;
                 }

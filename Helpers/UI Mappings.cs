@@ -34,11 +34,16 @@ namespace BeltSlot.Helpers
         public GameObject deployBeltSlot = null;
         public GameObject deployArmbandSlot = null;
         public GameObject healthPanelContainer = null;
+        public GameObject scavInventoryScreen = null;
+        public GameObject scavInventoryContainer = null;
+        public GameObject scavArmBandSlot = null;
+        public GameObject scavBeltSlot = null;
         public ToggleButton toggleButton = null;
         public InventoryScreen inventoryScreen = null;
         public EquipmentBuildsScreen equipmentBuildsScreen = null;
         public MatchmakerInsuranceScreen insuranceScreen = null;
         public PreloaderUI preloaderUI = null;
+        public CommonUI commonUI = null;
         public bool noActiveWindow = false;
         #endregion
 
@@ -144,6 +149,27 @@ namespace BeltSlot.Helpers
             SlotView slotView = lootBeltSlot.GetComponent<SlotView>();
 
             setBeltSlot_Settings(lootBeltSlot);
+            return slotView.Slot;
+        }
+
+        public Slot getScavLootTransferUI_Mappings()
+        {
+            if (commonUI == null)
+            {
+                commonUI = Singleton<CommonUI>.Instance;
+            }
+            scavInventoryScreen = commonUI.transform.Find("Common UI/Scavenger Inventory Screen").gameObject;
+            scavInventoryContainer = scavInventoryScreen.transform.Find("Items Panel/Containers Panel/Scrollview Parent/Containers Scrollview/Content").gameObject;
+            if (countTransformChildren(scavInventoryContainer) < 8)
+            {
+                Plugin.Instance.isSavage = true;
+                return null;
+            }
+            scavArmBandSlot = scavInventoryScreen.transform.Find("Items Panel/Left Panel/Gear Panel/ArmBand Slot").gameObject;
+            scavBeltSlot = scavInventoryContainer.transform.Find("ArmBand Slot").gameObject;
+            SlotView slotView = scavBeltSlot.GetComponent<SlotView>();
+
+            setBeltSlot_Settings(scavBeltSlot);
             return slotView.Slot;
         }
         #endregion
