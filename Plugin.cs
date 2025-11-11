@@ -16,8 +16,8 @@ using UnityEngine.SceneManagement;
 namespace BeltSlot
 {
     [BepInPlugin("BeltSlot", "BeltSlot", "1.0.1")]
-    [BepInDependency("com.SPT.core", "3.11.0")]
-    [BepInDependency("com.aaaWTT-PacknStrap.Core", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.SPT.core", "4.0.4")]
+    [BepInDependency("com.wtt.packnstrap", BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin
     {
         #region Variables
@@ -284,26 +284,27 @@ namespace BeltSlot
 
         void SetEquipmentSlots()
         {
-            if (Settings.BeltSlotLocation.Value == BeltSlotLocationOption.AbovePockets)
+            switch (Settings.BeltSlotLocation.Value)
             {
-                // Set the equipment slots to the aboveEquipmentSlots array
-                typeof(ContainersPanel)
-                    .GetField("equipmentSlot_0", BindingFlags.Static | BindingFlags.NonPublic)
-                    .SetValue(null, aboveEquipmentSlots);
-            }
-            else if (Settings.BeltSlotLocation.Value == BeltSlotLocationOption.BelowPockets)
-            {
-                // Set the equipment slots to the belowEquipmentSlots array
-                typeof(ContainersPanel)
-                    .GetField("equipmentSlot_0", BindingFlags.Static | BindingFlags.NonPublic)
-                    .SetValue(null, belowEquipmentSlots);
+                case BeltSlotLocationOption.AbovePockets:
+                    // Set the equipment slots to the aboveEquipmentSlots array
+                    typeof(ContainersPanel)
+                        .GetField("equipmentSlot_0", BindingFlags.Static | BindingFlags.NonPublic)
+                        .SetValue(null, aboveEquipmentSlots);
+                    break;
+                case BeltSlotLocationOption.BelowPockets:
+                    // Set the equipment slots to the belowEquipmentSlots array
+                    typeof(ContainersPanel)
+                        .GetField("equipmentSlot_0", BindingFlags.Static | BindingFlags.NonPublic)
+                        .SetValue(null, belowEquipmentSlots);
+                    break;
             }
         }
         #endregion
 
         private void Awake()
         {
-            packNStrapInstalled = Chainloader.PluginInfos.Keys.Contains("com.aaaWTT-PacknStrap.Core");
+            packNStrapInstalled = Chainloader.PluginInfos.Keys.Contains("com.wtt.packnstrap");
             Settings.Init(Config);
             Instance = this;
             Log = Logger;
@@ -320,7 +321,6 @@ namespace BeltSlot
             new InventoryEquipmentPatch().Enable();
             new InventoryScreenPatch().Enable();
             new ItemViewPatch().Enable();
-            //new EquipmentTabPatch().Disable();
 
             // Enables the correct patch based on if PackNStrap is installed or not
             if (packNStrapInstalled)
@@ -333,23 +333,6 @@ namespace BeltSlot
                 new GetPrioritizedContainersPackNStrapPatch().Disable();
                 new GetPrioritizedContainersPatch().Enable();
             }
-        }
-
-        private void Update()
-        {
-            //if(!testGameReady())
-            //{
-            //    return;
-
-            //}
-            //    if(Input.GetKeyDown(KeyCode.P))
-            //    {
-            //        Log.LogInfo($"[Belt Slots] Current screen: " + getCurrentScreen());
-            //        Log.LogInfo($"[Belt Slots] Current scene: " + getCurrentScene());
-
-            //        //SetScavInventoryArmbandSlot();
-            //        Log.LogInfo($"Scavswitharmbands is installed");
-            //    }
         }
         
         #region Update Methods
@@ -573,7 +556,6 @@ namespace BeltSlot
                  UiMappings.toggleArmBandSlotFull(!iconToggle, targetArm);
                  UiMappings.toggleBeltSlotFull(iconToggle, targetBelt);
             }
-            return;
         }
     }
 }

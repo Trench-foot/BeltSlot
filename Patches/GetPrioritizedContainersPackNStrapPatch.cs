@@ -14,47 +14,47 @@ namespace BeltSlot.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(GClass3168), nameof(GClass3168.GetPrioritizedContainersForLoot));
+            return AccessTools.Method(typeof(GClass3372), nameof(GClass3372.GetPrioritizedContainersForLoot));
         }
 
         [PatchPrefix]
         public static bool Prefix(InventoryEquipment equipment, Item item, ref IEnumerable<EFT.InventoryLogic.IContainer> __result)
         {
-            Slot slot = equipment.GetSlot(EquipmentSlot.TacticalVest);
-            Slot slot2 = equipment.GetSlot(EquipmentSlot.Backpack);
-            Slot slot3 = equipment.GetSlot(EquipmentSlot.Pockets);
-            Slot slot4 = equipment.GetSlot(EquipmentSlot.SecuredContainer);
-            Slot slot5 = equipment.GetSlot(EquipmentSlot.ArmBand);
-            VestItemClass vestItemClass = slot.ContainedItem as VestItemClass;
-            BackpackItemClass backpackItemClass = slot2.ContainedItem as BackpackItemClass;
-            PocketsItemClass pocketsItemClass = slot3.ContainedItem as PocketsItemClass;
-            MobContainerItemClass mobContainerItemClass = slot4.ContainedItem as MobContainerItemClass;
+            Slot slotTacticalVest = equipment.GetSlot(EquipmentSlot.TacticalVest);
+            Slot slotBackpack = equipment.GetSlot(EquipmentSlot.Backpack);
+            Slot slotPockets = equipment.GetSlot(EquipmentSlot.Pockets);
+            Slot slotSecuredContainer = equipment.GetSlot(EquipmentSlot.SecuredContainer);
+            Slot slotArmBand = equipment.GetSlot(EquipmentSlot.ArmBand);
+            
+            VestItemClass vestItemClass = slotTacticalVest.ContainedItem as VestItemClass;
+            BackpackItemClass backpackItemClass = slotBackpack.ContainedItem as BackpackItemClass;
+            PocketsItemClass pocketsItemClass = slotPockets.ContainedItem as PocketsItemClass;
+            MobContainerItemClass mobContainerItemClass = slotSecuredContainer.ContainedItem as MobContainerItemClass;
 
             // Additional items for custom belt and tactical belt
-            CustomBeltItemClass customBeltItemClass = slot5.ContainedItem as CustomBeltItemClass;
-            VestItemClass tacticalBeltItemClass = slot5.ContainedItem as VestItemClass;
+            CustomBeltItemClass customBeltItemClass = slotArmBand.ContainedItem as CustomBeltItemClass;
+            VestItemClass tacticalBeltItemClass = slotArmBand.ContainedItem as VestItemClass;
 
             // Tactical Rig Location
             IEnumerable<EFT.InventoryLogic.IContainer> enumerable;
-            if (vestItemClass != null)
+            
+            if (vestItemClass is not null)
             {
-                if ((enumerable = vestItemClass.Containers) != null)
-                {
+                if ((enumerable = vestItemClass.Containers) is not null)
                     goto IL_0064;
-                }
             }
+            
             enumerable = Enumerable.Empty<EFT.InventoryLogic.IContainer>();
+            
             IL_0064:
             IEnumerable<EFT.InventoryLogic.IContainer> enumerable2 = enumerable;
 
             // Backpack Location
             IEnumerable<EFT.InventoryLogic.IContainer> enumerable3;
-            if (backpackItemClass != null)
+            if (backpackItemClass is not null)
             {
-                if ((enumerable3 = backpackItemClass.Containers) != null)
-                {
+                if ((enumerable3 = backpackItemClass.Containers) is not null)
                     goto IL_007B;
-                }
             }
             enumerable3 = Enumerable.Empty<EFT.InventoryLogic.IContainer>();
             IL_007B:
