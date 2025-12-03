@@ -11,14 +11,14 @@
         "dependencies": {
           "0Harmony": "2.9.0.0",
           "Assembly-CSharp": "0.0.0.0",
-          "BepInEx": "5.4.22.0",
+          "BepInEx": "5.4.23.2",
           "Comfort": "1.0.0.4",
           "Comfort.Unity": "1.0.0.4",
           "Microsoft.CSharp": "4.0.0.0",
           "Newtonsoft.Json": "13.0.0.0",
           "Sirenix.Serialization": "1.0.0.0",
-          "spt-common": "3.11.3.0",
-          "spt-reflection": "3.11.3.0",
+          "spt-common": "4.0.1.0",
+          "spt-reflection": "4.0.1.0",
           "Unity.TextMeshPro": "0.0.0.0",
           "UnityEngine.AssetBundleModule": "0.0.0.0",
           "UnityEngine.CoreModule": "0.0.0.0",
@@ -28,7 +28,7 @@
           "UnityEngine.PhysicsModule": "0.0.0.0",
           "UnityEngine.TextRenderingModule": "0.0.0.0",
           "UnityEngine.UI": "1.0.0.0",
-          "WTT-PackNStrap": "1.1.11.0"
+          "WTT-PackNStrap": "2.0.2.0"
         },
         "runtime": {
           "BeltSlot.dll": {}
@@ -50,11 +50,11 @@
           }
         }
       },
-      "BepInEx/5.4.22.0": {
+      "BepInEx/5.4.23.2": {
         "runtime": {
           "BepInEx.dll": {
-            "assemblyVersion": "5.4.22.0",
-            "fileVersion": "5.4.22.0"
+            "assemblyVersion": "5.4.23.2",
+            "fileVersion": "5.4.23.2"
           }
         }
       },
@@ -98,19 +98,19 @@
           }
         }
       },
-      "spt-common/3.11.3.0": {
+      "spt-common/4.0.1.0": {
         "runtime": {
           "spt-common.dll": {
-            "assemblyVersion": "3.11.3.0",
-            "fileVersion": "3.11.3.0"
+            "assemblyVersion": "4.0.1.0",
+            "fileVersion": "4.0.1.0"
           }
         }
       },
-      "spt-reflection/3.11.3.0": {
+      "spt-reflection/4.0.1.0": {
         "runtime": {
           "spt-reflection.dll": {
-            "assemblyVersion": "3.11.3.0",
-            "fileVersion": "3.11.3.0"
+            "assemblyVersion": "4.0.1.0",
+            "fileVersion": "4.0.1.0"
           }
         }
       },
@@ -186,11 +186,11 @@
           }
         }
       },
-      "WTT-PackNStrap/1.1.11.0": {
+      "WTT-PackNStrap/2.0.2.0": {
         "runtime": {
           "WTT-PackNStrap.dll": {
-            "assemblyVersion": "1.1.11.0",
-            "fileVersion": "1.1.11.0"
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.0"
           }
         }
       },
@@ -234,59 +234,19 @@
           }
         }
       },
+      "UnityEngine.UnityWebRequestModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.UnityWebRequestModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "FilesChecker/1.0.0.0": {
         "runtime": {
           "FilesChecker.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
-          }
-        }
-      },
-      "Unity.Postprocessing.Runtime/0.0.0.0": {
-        "runtime": {
-          "Unity.Postprocessing.Runtime.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "Assembly-CSharp-firstpass/0.0.0.0": {
-        "runtime": {
-          "Assembly-CSharp-firstpass.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "UnityEngine.AnimationModule/0.0.0.0": {
-        "runtime": {
-          "UnityEngine.AnimationModule.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "UnityEngine.UIModule/0.0.0.0": {
-        "runtime": {
-          "UnityEngine.UIModule.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "Sirenix.OdinInspector.Attributes/1.0.0.0": {
-        "runtime": {
-          "Sirenix.OdinInspector.Attributes.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
-      },
-      "UnityEngine.Physics2DModule/0.0.0.0": {
-        "runtime": {
-          "UnityEngine.Physics2DModule.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
           }
         }
       },
@@ -298,17 +258,9 @@
           }
         }
       },
-      "bsg.microsoft.extensions.objectpool/0.0.0.0": {
+      "NLog/0.0.0.0": {
         "runtime": {
-          "bsg.microsoft.extensions.objectpool.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "UnityEngine.UnityWebRequestModule/0.0.0.0": {
-        "runtime": {
-          "UnityEngine.UnityWebRequestModule.dll": {
+          "NLog.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -322,14 +274,6 @@
           }
         }
       },
-      "UnityEngine.TerrainModule/0.0.0.0": {
-        "runtime": {
-          "UnityEngine.TerrainModule.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
       "UnityEngine.AudioModule/0.0.0.0": {
         "runtime": {
           "UnityEngine.AudioModule.dll": {
@@ -338,25 +282,9 @@
           }
         }
       },
-      "UnityEngine.ParticleSystemModule/0.0.0.0": {
+      "UnityEngine.AnimationModule/0.0.0.0": {
         "runtime": {
-          "UnityEngine.ParticleSystemModule.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "UnityEngine.VehiclesModule/0.0.0.0": {
-        "runtime": {
-          "UnityEngine.VehiclesModule.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "NLog/0.0.0.0": {
-        "runtime": {
-          "NLog.dll": {
+          "UnityEngine.AnimationModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -378,6 +306,30 @@
           }
         }
       },
+      "UnityEngine.TerrainModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.TerrainModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "bsg.microsoft.extensions.objectpool/0.0.0.0": {
+        "runtime": {
+          "bsg.microsoft.extensions.objectpool.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "UnityEngine.UIModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.UIModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "DOTween/1.0.0.0": {
         "runtime": {
           "DOTween.dll": {
@@ -386,19 +338,35 @@
           }
         }
       },
-      "CommonExtensions/0.0.0.0": {
+      "Unity.Postprocessing.Runtime/0.0.0.0": {
         "runtime": {
-          "CommonExtensions.dll": {
+          "Unity.Postprocessing.Runtime.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
         }
       },
-      "Unity.Mathematics/1.0.0.0": {
+      "UnityEngine.ParticleSystemModule/0.0.0.0": {
         "runtime": {
-          "Unity.Mathematics.dll": {
+          "UnityEngine.ParticleSystemModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Sirenix.OdinInspector.Attributes/1.0.0.0": {
+        "runtime": {
+          "Sirenix.OdinInspector.Attributes.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Unity.Collections/0.0.0.0": {
+        "runtime": {
+          "Unity.Collections.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
           }
         }
       },
@@ -426,9 +394,9 @@
           }
         }
       },
-      "Meta.XR.Audio/0.0.0.0": {
+      "Unity.Mathematics/0.0.0.0": {
         "runtime": {
-          "Meta.XR.Audio.dll": {
+          "Unity.Mathematics.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -442,14 +410,6 @@
           }
         }
       },
-      "UnityEngine.TerrainPhysicsModule/0.0.0.0": {
-        "runtime": {
-          "UnityEngine.TerrainPhysicsModule.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
       "DissonanceVoip/0.0.0.0": {
         "runtime": {
           "DissonanceVoip.dll": {
@@ -458,9 +418,25 @@
           }
         }
       },
+      "Unity.ScriptableBuildPipeline/0.0.0.0": {
+        "runtime": {
+          "Unity.ScriptableBuildPipeline.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "ItemComponent.Types/0.0.0.0": {
         "runtime": {
           "ItemComponent.Types.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Assembly-CSharp-firstpass/0.0.0.0": {
+        "runtime": {
+          "Assembly-CSharp-firstpass.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -482,9 +458,49 @@
           }
         }
       },
+      "com.nvidia.reflex.Runtime/0.0.0.0": {
+        "runtime": {
+          "com.nvidia.reflex.Runtime.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "bsg.console.core/0.0.0.0": {
         "runtime": {
           "bsg.console.core.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "UnityEngine.Physics2DModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.Physics2DModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "UnityEngine.VehiclesModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.VehiclesModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Meta.XR.Audio/0.0.0.0": {
+        "runtime": {
+          "Meta.XR.Audio.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "UnityEngine.TerrainPhysicsModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.TerrainPhysicsModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -498,9 +514,9 @@
           }
         }
       },
-      "ItemTemplate.Types/0.0.0.0": {
+      "CommonExtensions/0.0.0.0": {
         "runtime": {
-          "ItemTemplate.Types.dll": {
+          "CommonExtensions.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -509,22 +525,6 @@
       "UnityEngine.StreamingModule/0.0.0.0": {
         "runtime": {
           "UnityEngine.StreamingModule.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "com.nvidia.reflex.Runtime/0.0.0.0": {
-        "runtime": {
-          "com.nvidia.reflex.Runtime.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "Unity.ScriptableBuildPipeline/0.0.0.0": {
-        "runtime": {
-          "Unity.ScriptableBuildPipeline.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -546,9 +546,9 @@
           }
         }
       },
-      "Unity.Collections/0.0.0.0": {
+      "ItemTemplate.Types/0.0.0.0": {
         "runtime": {
-          "Unity.Collections.dll": {
+          "ItemTemplate.Types.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -570,19 +570,11 @@
           }
         }
       },
-      "bsg.system.buffers/0.0.0.0": {
-        "runtime": {
-          "bsg.system.buffers.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "System.Runtime.CompilerServices.Unsafe/4.0.4.1": {
+      "System.Runtime.CompilerServices.Unsafe/6.0.0.0": {
         "runtime": {
           "System.Runtime.CompilerServices.Unsafe.dll": {
-            "assemblyVersion": "4.0.4.1",
-            "fileVersion": "4.6.26919.2"
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.21.52210"
           }
         }
       },
@@ -618,14 +610,6 @@
           }
         }
       },
-      "Sirenix.Utilities/1.0.0.0": {
-        "runtime": {
-          "Sirenix.Utilities.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
-      },
       "UnityEngine.WindModule/0.0.0.0": {
         "runtime": {
           "UnityEngine.WindModule.dll": {
@@ -637,6 +621,22 @@
       "UnityEngine.TextCoreFontEngineModule/0.0.0.0": {
         "runtime": {
           "UnityEngine.TextCoreFontEngineModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Sirenix.Utilities/1.0.0.0": {
+        "runtime": {
+          "Sirenix.Utilities.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "bsg.system.buffers/0.0.0.0": {
+        "runtime": {
+          "bsg.system.buffers.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -914,14 +914,6 @@
           }
         }
       },
-      "LibraryLoaderUtility/0.0.0.0": {
-        "runtime": {
-          "LibraryLoaderUtility.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
       "System.Configuration/4.0.0.0": {
         "runtime": {
           "System.Configuration.dll": {
@@ -935,6 +927,14 @@
           "System.Web.Services.dll": {
             "assemblyVersion": "4.0.0.0",
             "fileVersion": "4.6.57.0"
+          }
+        }
+      },
+      "Unity.Collections.LowLevel.ILSupport/0.0.0.0": {
+        "runtime": {
+          "Unity.Collections.LowLevel.ILSupport.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
           }
         }
       },
@@ -954,6 +954,14 @@
           }
         }
       },
+      "LibraryLoaderUtility/0.0.0.0": {
+        "runtime": {
+          "LibraryLoaderUtility.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "where-allocations/0.0.0.0": {
         "runtime": {
           "where-allocations.dll": {
@@ -966,14 +974,6 @@
         "runtime": {
           "Unity.Burst.Unsafe.dll": {
             "assemblyVersion": "4.0.5.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "Unity.Collections.LowLevel.ILSupport/0.0.0.0": {
-        "runtime": {
-          "Unity.Collections.LowLevel.ILSupport.dll": {
-            "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
         }
@@ -1084,7 +1084,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "BepInEx/5.4.22.0": {
+    "BepInEx/5.4.23.2": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1114,12 +1114,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "spt-common/3.11.3.0": {
+    "spt-common/4.0.1.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
-    "spt-reflection/3.11.3.0": {
+    "spt-reflection/4.0.1.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1169,7 +1169,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "WTT-PackNStrap/1.1.11.0": {
+    "WTT-PackNStrap/2.0.2.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1199,37 +1199,12 @@
       "serviceable": false,
       "sha512": ""
     },
+    "UnityEngine.UnityWebRequestModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "FilesChecker/1.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Unity.Postprocessing.Runtime/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Assembly-CSharp-firstpass/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "UnityEngine.AnimationModule/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "UnityEngine.UIModule/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Sirenix.OdinInspector.Attributes/1.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "UnityEngine.Physics2DModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1239,12 +1214,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "bsg.microsoft.extensions.objectpool/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "UnityEngine.UnityWebRequestModule/0.0.0.0": {
+    "NLog/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1254,27 +1224,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "UnityEngine.TerrainModule/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
     "UnityEngine.AudioModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
-    "UnityEngine.ParticleSystemModule/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "UnityEngine.VehiclesModule/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "NLog/0.0.0.0": {
+    "UnityEngine.AnimationModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1289,17 +1244,42 @@
       "serviceable": false,
       "sha512": ""
     },
+    "UnityEngine.TerrainModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "bsg.microsoft.extensions.objectpool/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UnityEngine.UIModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "DOTween/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
-    "CommonExtensions/0.0.0.0": {
+    "Unity.Postprocessing.Runtime/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
-    "Unity.Mathematics/1.0.0.0": {
+    "UnityEngine.ParticleSystemModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Sirenix.OdinInspector.Attributes/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Unity.Collections/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1319,7 +1299,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Meta.XR.Audio/0.0.0.0": {
+    "Unity.Mathematics/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1329,17 +1309,22 @@
       "serviceable": false,
       "sha512": ""
     },
-    "UnityEngine.TerrainPhysicsModule/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
     "DissonanceVoip/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
+    "Unity.ScriptableBuildPipeline/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "ItemComponent.Types/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Assembly-CSharp-firstpass/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1354,7 +1339,32 @@
       "serviceable": false,
       "sha512": ""
     },
+    "com.nvidia.reflex.Runtime/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "bsg.console.core/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UnityEngine.Physics2DModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UnityEngine.VehiclesModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Meta.XR.Audio/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UnityEngine.TerrainPhysicsModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1364,22 +1374,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "ItemTemplate.Types/0.0.0.0": {
+    "CommonExtensions/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
     "UnityEngine.StreamingModule/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "com.nvidia.reflex.Runtime/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Unity.ScriptableBuildPipeline/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1394,7 +1394,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Unity.Collections/0.0.0.0": {
+    "ItemTemplate.Types/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1409,12 +1409,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "bsg.system.buffers/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "System.Runtime.CompilerServices.Unsafe/4.0.4.1": {
+    "System.Runtime.CompilerServices.Unsafe/6.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1439,17 +1434,22 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Sirenix.Utilities/1.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
     "UnityEngine.WindModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
     "UnityEngine.TextCoreFontEngineModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Sirenix.Utilities/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "bsg.system.buffers/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1624,17 +1624,17 @@
       "serviceable": false,
       "sha512": ""
     },
-    "LibraryLoaderUtility/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
     "System.Configuration/4.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
     "System.Web.Services/4.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Unity.Collections.LowLevel.ILSupport/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1649,17 +1649,17 @@
       "serviceable": false,
       "sha512": ""
     },
+    "LibraryLoaderUtility/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "where-allocations/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
     "Unity.Burst.Unsafe/4.0.5.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Unity.Collections.LowLevel.ILSupport/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

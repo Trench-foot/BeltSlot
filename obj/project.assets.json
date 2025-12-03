@@ -8,31 +8,24 @@
     ".NETStandard,Version=v2.1": []
   },
   "packageFolders": {
-    "C:\\Users\\James\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\kobethuy\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\SP-Tarkov Dev\\Development\\BeltSlot v2\\BeltSlot.csproj",
+      "projectUniqueName": "D:\\Git Repo\\BeltSlot\\BeltSlot.csproj",
       "projectName": "BeltSlot",
-      "projectPath": "D:\\SP-Tarkov Dev\\Development\\BeltSlot v2\\BeltSlot.csproj",
-      "packagesPath": "C:\\Users\\James\\.nuget\\packages\\",
-      "outputPath": "D:\\SP-Tarkov Dev\\Development\\BeltSlot v2\\obj\\",
+      "projectPath": "D:\\Git Repo\\BeltSlot\\BeltSlot.csproj",
+      "packagesPath": "C:\\Users\\kobethuy\\.nuget\\packages\\",
+      "outputPath": "D:\\Git Repo\\BeltSlot\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\James\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\kobethuy\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.1"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

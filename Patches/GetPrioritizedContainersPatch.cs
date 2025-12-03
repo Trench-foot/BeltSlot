@@ -12,7 +12,7 @@ namespace BeltSlot.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(GClass3168), nameof(GClass3168.GetPrioritizedContainersForLoot));
+            return AccessTools.Method(typeof(GClass3372), nameof(GClass3372.GetPrioritizedContainersForLoot));
         }
 
         [PatchPrefix]
@@ -23,6 +23,7 @@ namespace BeltSlot.Patches
             Slot slot3 = equipment.GetSlot(EquipmentSlot.Pockets);
             Slot slot4 = equipment.GetSlot(EquipmentSlot.SecuredContainer);
             Slot slot5 = equipment.GetSlot(EquipmentSlot.ArmBand);
+            
             VestItemClass vestItemClass = slot.ContainedItem as VestItemClass;
             BackpackItemClass backpackItemClass = slot2.ContainedItem as BackpackItemClass;
             PocketsItemClass pocketsItemClass = slot3.ContainedItem as PocketsItemClass;
